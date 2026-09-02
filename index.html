@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0a192f">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Protocolo Táctico Ley 27.801 - Policía de Tucumán</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,7 +51,6 @@
             padding-bottom: calc(85px + var(--safe-bottom));
         }
 
-        /* HEADER MOBILE COMPACTO */
         header.mobile-header {
             background: linear-gradient(135deg, var(--police-dark), var(--police-navy));
             color: #ffffff;
@@ -94,7 +91,6 @@
             white-space: nowrap;
         }
 
-        /* ZONA DE CONTROLES FLOTANTES SUPERIORES */
         .search-filter-zone {
             padding: 10px 14px 6px 14px;
             background: var(--bg-canvas);
@@ -152,13 +148,14 @@
             font-size: 0.75rem;
             font-weight: bold;
             color: var(--text-secondary);
+            cursor: pointer;
         }
 
         .clear-btn.active {
             display: flex;
         }
 
-        .categories-scroll {
+        .status-scroll {
             display: flex;
             gap: 6px;
             overflow-x: auto;
@@ -166,83 +163,129 @@
             scrollbar-width: none;
         }
 
-        .categories-scroll::-webkit-scrollbar {
+        .status-scroll::-webkit-scrollbar {
             display: none;
         }
 
-        .cat-chip {
+        .status-chip {
             background: #ffffff;
             border: 1px solid var(--border);
             color: var(--text-secondary);
-            padding: 6px 12px;
+            padding: 7px 12px;
             border-radius: 20px;
             font-size: 0.76rem;
             font-weight: 700;
             white-space: nowrap;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
             box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+            transition: all 0.15s;
         }
 
-        .cat-chip.active {
-            background: var(--police-navy);
-            color: #ffffff;
-            border-color: var(--police-navy);
-        }
+        .status-chip.active { color: #ffffff; }
+        .status-chip[data-status="all"].active { background: var(--police-navy); border-color: var(--police-navy); }
+        .status-chip[data-status="armado"].active { background: #b91c1c; border-color: #b91c1c; }
+        .status-chip[data-status="intoxicado"].active { background: #b45309; border-color: #b45309; }
+        .status-chip[data-status="tranquilo"].active { background: #1d4ed8; border-color: #1d4ed8; }
+        .status-chip[data-status="vulnerable"].active { background: #15803d; border-color: #15803d; }
 
-        /* REGLAS OBLIGATORIAS */
-        .rules-card {
-            margin: 10px 14px 16px 14px;
-            background: var(--police-gold-light);
-            border: 1.5px solid #fcd34d;
+        /* PANELES DE APOYO TÁCTICO */
+        .tactical-accordion {
+            margin: 6px 14px 10px 14px;
             border-radius: 12px;
-            padding: 12px 14px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
         }
 
-        .rules-card summary {
+        .tactical-accordion summary {
+            padding: 12px 14px;
             font-size: 0.82rem;
             font-weight: 800;
-            color: #92400e;
             cursor: pointer;
             list-style: none;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            user-select: none;
         }
 
-        .rules-card summary::after {
+        .tactical-accordion summary::after {
             content: "▼";
             font-size: 0.7rem;
             transition: transform 0.2s;
         }
 
-        .rules-card[open] summary::after {
+        .tactical-accordion[open] summary::after {
             transform: rotate(180deg);
         }
 
-        .rules-list {
-            list-style: none;
-            margin-top: 10px;
-            padding-top: 8px;
-            border-top: 1px dashed #f59e0b;
-            font-size: 0.78rem;
-            color: #78350f;
+        .tactical-accordion.rules-theme { background: var(--police-gold-light); border-color: #fcd34d; }
+        .tactical-accordion.rules-theme summary { color: #92400e; }
+
+        .tactical-accordion.roles-theme { background: #eff6ff; border-color: #bfdbfe; }
+        .tactical-accordion.roles-theme summary { color: #1e40af; }
+
+        .tactical-accordion.check-theme { background: #f0fdf4; border-color: #bbf7d0; }
+        .tactical-accordion.check-theme summary { color: #166534; }
+
+        .tactical-accordion.history-theme { background: #fdf2f8; border-color: #fbcfe8; }
+        .tactical-accordion.history-theme summary { color: #9d174d; }
+
+        .tactical-content {
+            padding: 10px 14px 14px 14px;
+            border-top: 1px dashed rgba(0,0,0,0.1);
+            font-size: 0.8rem;
             line-height: 1.5;
         }
 
-        .rules-list li {
-            margin-bottom: 6px;
-            position: relative;
-            padding-left: 20px;
+        /* CHECKLIST ESTILO */
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
         }
 
-        .rules-list li::before {
-            content: "⛔";
-            position: absolute;
-            left: 0;
-            font-size: 0.75rem;
+        .check-item input[type="checkbox"] {
+            margin-top: 3px;
+            width: 17px;
+            height: 17px;
+            accent-color: #16a34a;
+            cursor: pointer;
         }
 
-        /* LISTADO DE TARJETAS (MOBILE OPTIMIZED) */
+        /* TABLAS COMPARATIVAS */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 8px;
+        }
+
+        .tactical-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.76rem;
+        }
+
+        .tactical-table th, .tactical-table td {
+            padding: 8px 10px;
+            border: 1px solid #cbd5e1;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .tactical-table th {
+            background: #e2e8f0;
+            font-weight: 800;
+            color: #1e293b;
+        }
+
+        /* TARJETAS DE CASOS */
         .cards-container {
             padding: 0 14px;
         }
@@ -254,7 +297,7 @@
             margin-bottom: 14px;
             box-shadow: 0 2px 6px rgba(0,0,0,0.04);
             overflow: hidden;
-            scroll-margin-top: 140px;
+            scroll-margin-top: 145px;
         }
 
         .case-card.highlight {
@@ -295,7 +338,7 @@
             line-height: 1.25;
         }
 
-        .card-tag {
+        .card-status-badge {
             font-size: 0.65rem;
             font-weight: 800;
             text-transform: uppercase;
@@ -304,10 +347,10 @@
             white-space: nowrap;
         }
 
-        .tag-etario { background: #dbeafe; color: #1d4ed8; }
-        .tag-delito { background: #fee2e2; color: #b91c1c; }
-        .tag-salud { background: #fef3c7; color: #b45309; }
-        .tag-garantia { background: #ede9fe; color: #6d28d9; }
+        .badge-armado { background: #fee2e2; color: #b91c1c; }
+        .badge-intoxicado { background: #fef3c7; color: #b45309; }
+        .badge-tranquilo { background: #dbeafe; color: #1d4ed8; }
+        .badge-vulnerable { background: #dcfce7; color: #15803d; }
 
         .card-summary {
             padding: 10px 14px;
@@ -318,43 +361,58 @@
             border-left: 4px solid var(--police-blue);
         }
 
-        /* BLOQUES DE DECISIÓN OPERATIVA */
         .card-sections {
             padding: 12px 14px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
 
-        .op-block {
+        .op-accordion {
             border-radius: 10px;
-            padding: 10px 12px;
             border: 1px solid transparent;
+            overflow: hidden;
         }
 
-        .op-block.do { background: var(--do-bg); border-color: var(--do-border); }
-        .op-block.dont { background: var(--dont-bg); border-color: var(--dont-border); }
-        .op-block.call-do { background: var(--call-do-bg); border-color: var(--call-do-border); }
-        .op-block.call-dont { background: var(--call-dont-bg); border-color: var(--call-dont-border); }
-
-        .op-header {
-            font-size: 0.72rem;
+        .op-accordion summary {
+            padding: 10px 12px;
+            font-size: 0.74rem;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            margin-bottom: 6px;
+            cursor: pointer;
+            list-style: none;
             display: flex;
             align-items: center;
-            gap: 6px;
+            justify-content: space-between;
+            user-select: none;
         }
 
-        .op-block.do .op-header { color: var(--do-color); }
-        .op-block.dont .op-header { color: var(--dont-color); }
-        .op-block.call-do .op-header { color: var(--call-do-color); }
-        .op-block.call-dont .op-header { color: var(--call-dont-color); }
+        .op-accordion summary::after {
+            content: "▾";
+            font-size: 0.85rem;
+            transition: transform 0.2s;
+        }
+
+        .op-accordion[open] summary::after {
+            transform: rotate(180deg);
+        }
+
+        .op-accordion.do { background: var(--do-bg); border-color: var(--do-border); }
+        .op-accordion.do summary { color: var(--do-color); }
+
+        .op-accordion.dont { background: var(--dont-bg); border-color: var(--dont-border); }
+        .op-accordion.dont summary { color: var(--dont-color); }
+
+        .op-accordion.call-do { background: var(--call-do-bg); border-color: var(--call-do-border); }
+        .op-accordion.call-do summary { color: var(--call-do-color); }
+
+        .op-accordion.call-dont { background: var(--call-dont-bg); border-color: var(--call-dont-border); }
+        .op-accordion.call-dont summary { color: var(--call-dont-color); }
 
         .op-list {
             list-style: none;
+            padding: 0 12px 10px 12px;
             font-size: 0.82rem;
             line-height: 1.45;
         }
@@ -370,10 +428,10 @@
             margin-bottom: 0;
         }
 
-        .op-block.do .op-list li::before { content: "✓"; position: absolute; left: 0; color: #15803d; font-weight: 900; }
-        .op-block.dont .op-list li::before { content: "✕"; position: absolute; left: 0; color: #b91c1c; font-weight: 900; }
-        .op-block.call-do .op-list li::before { content: "☎"; position: absolute; left: 0; color: #2563eb; }
-        .op-block.call-dont .op-list li::before { content: "⊘"; position: absolute; left: 0; color: #7e22ce; font-weight: 900; }
+        .op-accordion.do .op-list li::before { content: "✓"; position: absolute; left: 0; color: #15803d; font-weight: 900; }
+        .op-accordion.dont .op-list li::before { content: "✕"; position: absolute; left: 0; color: #b91c1c; font-weight: 900; }
+        .op-accordion.call-do .op-list li::before { content: "☎"; position: absolute; left: 0; color: #2563eb; }
+        .op-accordion.call-dont .op-list li::before { content: "⊘"; position: absolute; left: 0; color: #7e22ce; font-weight: 900; }
 
         .law-cite {
             font-family: 'JetBrains Mono', monospace;
@@ -385,7 +443,6 @@
             display: inline-block;
         }
 
-        /* NAVEGADOR INFERIOR FIJO PARA PULGAR */
         nav.bottom-bar {
             position: fixed;
             bottom: 0;
@@ -412,20 +469,19 @@
             font-size: 0.68rem;
             font-weight: 700;
             color: var(--text-muted);
-            width: 33%;
+            width: 25%;
             cursor: pointer;
             gap: 2px;
         }
 
         .bottom-btn span.btn-icon {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
         }
 
         .bottom-btn.active {
             color: var(--police-navy);
         }
 
-        /* MODAL BOTTOM SHEET (ÍNDICE 30 CASOS) */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -491,6 +547,7 @@
             font-weight: bold;
             color: var(--text-secondary);
             font-size: 0.9rem;
+            cursor: pointer;
         }
 
         .sheet-list {
@@ -528,7 +585,6 @@
             font-weight: 800;
         }
 
-        /* VACÍO */
         .empty-results {
             display: none;
             text-align: center;
@@ -540,1324 +596,696 @@
 </head>
 <body>
 
-    <!-- CABECERA MOBILE -->
     <header class="mobile-header">
         <div class="header-info">
             <h1>Protocolo Ley 27.801</h1>
             <p>Policía de Tucumán • Menores de Edad</p>
         </div>
-        <span class="header-badge">Oficial de Guardia</span>
+        <span class="header-badge">Oficial de Calle</span>
     </header>
 
-    <!-- BUSCADOR Y FILTROS TOUCH -->
     <div class="search-filter-zone">
         <div class="search-box">
             <span class="search-icon">🔍</span>
-            <input type="text" id="searchInput" placeholder="Escribir caso (ej: droga, 13 años, tobillera)..." autocomplete="off">
+            <input type="text" id="searchInput" placeholder="Búsqueda tolerante (ej: soldadito, escuela, celular, tea)..." autocomplete="off">
             <button class="clear-btn" id="clearBtn">✕</button>
         </div>
-        <div class="categories-scroll">
-            <button class="cat-chip active" data-filter="all">Todos (30)</button>
-            <button class="cat-chip" data-filter="etario">Edad e Identidad</button>
-            <button class="cat-chip" data-filter="delito">Delitos y Flagrancia</button>
-            <button class="cat-chip" data-filter="salud">Salud y Sustancias</button>
-            <button class="cat-chip" data-filter="garantia">Garantías y Legal</button>
+        <div class="status-scroll">
+            <button class="status-chip active" data-status="all">Todos (35)</button>
+            <button class="status-chip" data-status="armado">🔴 Agresivo / Armas</button>
+            <button class="status-chip" data-status="intoxicado">🟡 Intoxicado / Adicción</button>
+            <button class="status-chip" data-status="tranquilo">🔵 Sin Lesión / Calmo</button>
+            <button class="status-chip" data-status="vulnerable">🟢 Víctima / Urgencia</button>
         </div>
     </div>
 
-    <!-- DIRECTIVAS OBLIGATORIAS -->
-    <details class="rules-card" id="rulesCard">
+    <!-- MÓDULO 1: REGLAS PERMANENTES -->
+    <details class="tactical-accordion rules-theme" id="rulesCard">
         <summary>⛔ REGLAS DE ORO MANDATORIAS EN COMISARÍA</summary>
-        <ul class="rules-list">
-            <li><strong>NO ALOJAR EN CALABOZOS NI CELDAS CON MAYORES:</strong> Aislamiento estricto de adultos detenidos <span class="law-cite">Arts. 5 inc. k y 30 inc. a</span>.</li>
-            <li><strong>NO RECIBIR DECLARACIÓN INDAGATORIA:</strong> Queda prohibido interrogar al menor o plasmar "declaraciones espontáneas" sin abogado presente <span class="law-cite">Arts. 5 inc. c y 47</span>.</li>
-            <li><strong>NO ESPOSAMIENTO RUTINARIO:</strong> Uso excepcionalísimo ante riesgo letal o inminente comprobado <span class="law-cite">Art. 5 inc. b</span>.</li>
-            <li><strong>PROHIBIDA LA DIFUSIÓN PÚBLICA:</strong> No suministrar fotos, nombres ni datos a la prensa o redes sociales <span class="law-cite">Art. 5 inc. i</span>.</li>
-            <li><strong>IN DUBIO PRO MINORIS:</strong> Si no hay DNI y hay duda sobre la edad, se presume siempre menor <span class="law-cite">Art. 2</span>.</li>
-        </ul>
+        <div class="tactical-content">
+            <ul style="list-style:none; padding-left:0;">
+                <li style="margin-bottom:6px;">⛔ <strong>NO CALABOZO:</strong> Aislamiento total de mayores aprehendidos <span class="law-cite">Arts. 5 inc. k y 30 inc. a</span>.</li>
+                <li style="margin-bottom:6px;">⛔ <strong>NO DECLARACIONES:</strong> Prohibido interrogar o asentar "manifestaciones espontáneas" sin abogado defensor <span class="law-cite">Arts. 5 inc. c y 47</span>.</li>
+                <li style="margin-bottom:6px;">⛔ <strong>NO ESPOSAS POR RUTINA:</strong> Uso excepcionalísimo ante riesgo inminente y grave de daño físico <span class="law-cite">Art. 5 inc. b</span>.</li>
+                <li style="margin-bottom:6px;">⛔ <strong>NO DIFUSIÓN EN REDES/PRENSA:</strong> Prohibido divulgar fotos, nombres o identidades <span class="law-cite">Art. 5 inc. i</span>.</li>
+                <li>⛔ <strong>IN DUBIO PRO MINORIS:</strong> Ante la menor duda sobre la edad, se presume formalmente menor <span class="law-cite">Art. 2</span>.</li>
+            </ul>
+        </div>
+    </details>
+
+    <!-- MÓDULO 2: CHECKLIST TÉCNICO INTERACTIVO (10 PUNTOS ANTI-NULIDAD) -->
+    <details class="tactical-accordion check-theme" id="checkCard">
+        <summary>📋 CHECKLIST DE GUARDIA: 10 CONTROLES ANTI-NULIDAD</summary>
+        <div class="tactical-content">
+            <label class="check-item"><input type="checkbox" class="chk-task" id="chk1"> <span><strong>1. Edad y DNI:</strong> Verificada fehacientemente o aplicada presunción <em>in dubio pro minoris</em> (Art. 2).</span></label>
+            <label class="check-item"><input type="checkbox" class="chk-task" id="chk2"> <span><strong>2. Alojamiento Aislado:</strong> Constancia de que no tuvo contacto visual ni auditivo con adultos aprehendidos (Arts. 5 y 30).</span></label>
+            <label class="check-item"><input type="checkbox" class="chk-task" id="chk3"> <span><strong>3. No Autoincriminación:</strong> Notificación de derechos y abstención de declarar sin su letrado defensor (Arts. 5 y 47).</span></label>
+            <label class="check-item"><input type="checkbox" class="chk-task" id="chk4"> <span><strong>4. Constatación Médica:</strong> Certificación médica legal o de SIPROSA incorporada al sumario policial.</span></label>
+            <label class="check-item"><input type="checkbox" class="chk-task" id="chk5"> <span><strong>5. Llamada Fiscal:</strong> Hora y funcionario notificado de la Unidad Fiscal Penal Juvenil interviniente.</span></label>
+            <label class="check-item"><input type="checkbox" class="chk-task" id="chk6"> <span><strong>6. Asesoría Tutelar:</strong> Notificación obligatoria bajo pena de nulidad procesal absoluta (Art. 5 inc. n).</span></label>
+            <label class="check-item"><input type="checkbox" class="chk-task" id="chk7"> <span><strong>7. Defensa Técnica:</strong> Comunicación formal e inmediata a la Defensoría Oficial de Menores (Art. 5 inc. c).</span></label>
+            <label class="check-item"><input type="checkbox" class="chk-task" id="chk8"> <span><strong>8. Citación y Notificación Civil a Padres:</strong> Notificados por escrito de su responsabilidad civil (Art. 7).</span></label>
+            <label class="check-item"><input type="checkbox" class="chk-task" id="chk9"> <span><strong>9. Justificación de Esposas:</strong> Si se colocaron esposas, párrafo fundamentando el riesgo letal inminente (Art. 5 inc. b).</span></label>
+            <label class="check-item"><input type="checkbox" class="chk-task" id="chk10"> <span><strong>10. Reserva Estricta:</strong> Constancia de no divulgación de datos a medios masivos ni redes sociales (Art. 5 inc. i).</span></label>
+        </div>
+    </details>
+
+    <!-- MÓDULO 3: MATRIZ DE ROLES (SUBOFICIAL VS OFICIAL) -->
+    <details class="tactical-accordion roles-theme" id="rolesCard">
+        <summary>👮 MATRIZ TÁCTICA: SUBOFICIAL EN CALLE VS. OFICIAL EN BASE</summary>
+        <div class="tactical-content">
+            <div class="table-responsive">
+                <table class="tactical-table">
+                    <thead>
+                        <tr>
+                            <th>Aspecto Operativo</th>
+                            <th>Suboficial en Patrullero / Calle</th>
+                            <th>Oficial de Guardia / Sumariante</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Uso de Esposas</strong></td>
+                            <td>Excepcionalísimo: solo peligro letal o ataque inminente comprobado (Art. 5 inc. b).</td>
+                            <td>Ordena quitarlas al ingresar si no hay riesgo y asienta la fundamentación en el acta.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Declaración</strong></td>
+                            <td>Freno verbal inmediato: "Guarde silencio, tiene derecho a esperar a su abogado" (Art. 5 inc. c).</td>
+                            <td>Prohibido redactar "manifestaciones espontáneas" en el sumario (Art. 47).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Alojamiento</strong></td>
+                            <td>Traslado en móvil individual disociado de adultos aprehendidos.</td>
+                            <td>Nunca a calabozo: oficina administrativa bajo custodia visual directa (Art. 30).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Comunicaciones</strong></td>
+                            <td>Reporta por radio al oficial de guardia las circunstancias del hecho.</td>
+                            <td>Realiza las 4 llamadas obligatorias: Fiscal, Asesor Tutelar, Defensor y Padres/DINAyF.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Intoxicación</strong></td>
+                            <td>Ruta prioritaria: traslada de urgencia al CAPS/Hospital antes de ir a comisaría.</td>
+                            <td>Recibe con certificado médico y notifica al Fiscal bajo régimen de salud (Art. 35).</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </details>
+
+    <!-- MÓDULO 4: COMPARATIVA HISTÓRICA DE PARADIGMAS -->
+    <details class="tactical-accordion history-theme" id="historyCard">
+        <summary>⚖️ COMPARATIVA: LEY DEROGADA 22.278 VS. NUEVA LEY 27.801</summary>
+        <div class="tactical-content">
+            <div class="table-responsive">
+                <table class="tactical-table">
+                    <thead>
+                        <tr>
+                            <th>Prácticas Anteriores (Ley 22.278)</th>
+                            <th>Régimen Obligatorio (Ley 27.801)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Demoras de 14 y 15 años sin garantías penales bajo "disposición tutelar".</td>
+                            <td>Régimen Penal Juvenil formal a partir de los 14 años con defensa técnica desde el minuto cero.</td>
+                        </tr>
+                        <tr>
+                            <td>Alojamiento en bancos de pasillo o guardias comunes a la vista de mayores.</td>
+                            <td>Separación física estricta y prohibición absoluta de celdas comunes con adultos.</td>
+                        </tr>
+                        <tr>
+                            <td>Esposamiento preventivo rutinario en patrulleros por seguridad.</td>
+                            <td>Esposas prohibidas como regla; solo proceden excepcionalmente por riesgo grave inminente.</td>
+                        </tr>
+                        <tr>
+                            <td>Actas con confesiones informales ("manifestó espontáneamente").</td>
+                            <td>Nulidad absoluta de manifestaciones tomadas sin la defensa oficial presente.</td>
+                        </tr>
+                        <tr>
+                            <td>Arreglos informales de dinero entre víctimas y padres en la comisaría.</td>
+                            <td>Prohibida la mediación policial; la reparación civil y mediación son exclusivamente judiciales.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </details>
 
     <div class="empty-results" id="emptyResults">
-        <p>No se encontraron casos para esa búsqueda.</p>
-        <p style="font-size: 0.78rem; margin-top: 4px;">Intente con: <em>inimputable, drogas, armas, fuga, autolesion, tea</em>.</p>
+        <p>No se encontraron casos que coincidan con la búsqueda.</p>
+        <p style="font-size: 0.78rem; margin-top: 4px;">Intente con: <em>inimputable, drogas, armas, fuga, soldadito, escuela, celular</em>.</p>
     </div>
 
-    <!-- CONTENEDOR DE TARJETAS (30 SUPUESTOS COMPLETOS) -->
+    <!-- TARJETAS DE LOS 35 SUPUESTOS TÁCTICOS COMPLETOS -->
     <main class="cards-container" id="cardsContainer">
 
         <!-- 01 -->
-        <article class="case-card" id="caso-1" data-cat="etario" data-keywords="inimputable menor catorce 14 años nene niño desestimiento dsf entrega padres">
+        <article class="case-card" id="caso-1" data-status="tranquilo" data-keywords="inimputable menor catorce 14 años nene niño desestimiento dsf entrega padres">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">01</span>
-                    <h2 class="card-title-text">Menor de 14 Años en Vía Pública</h2>
-                </div>
-                <span class="card-tag tag-etario">Inimputable</span>
+                <div class="header-title-box"><span class="card-order">01</span><h2 class="card-title-text">Menor de 14 Años en Vía Pública</h2></div>
+                <span class="card-status-badge badge-tranquilo">Sin Lesión / Calmo</span>
             </div>
             <div class="card-summary">Flagrancia o averiguación de ilícito. Inimputable absoluto sin reproche penal.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Preservar escena, asegurar efectos y contener al niño en oficina administrativa.</li>
-                        <li>Investigar solo para esclarecer el hecho e individualizar mayores de edad <span class="law-cite">Art. 24</span>.</li>
-                        <li>Entrega formal bajo acta a progenitores o tutores legales.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO esposarlo, ficharlo penalmente ni ingresarlo a celdas comunes <span class="law-cite">Art. 24</span>.</li>
-                        <li>NO interrogarlo sobre el delito ni exigirle confesión del hecho.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Unidad Fiscal (investigación de mayores involucrados).</li>
-                        <li>Asesoría Tutelar de turno <span class="law-cite">Art. 5 inc. n</span>.</li>
-                        <li>DINAyF y Padres o tutores <span class="law-cite">Art. 5 inc. l</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO solicitar encierro punitivo en institutos penitenciarios comunes.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Preservar escena, asegurar efectos y contener al niño en oficina administrativa.</li><li>Investigar solo para esclarecer el hecho e individualizar mayores de edad <span class="law-cite">Art. 24</span>.</li><li>Entrega formal bajo acta a progenitores o tutores legales.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO esposarlo, ficharlo penalmente ni ingresarlo a celdas comunes <span class="law-cite">Art. 24</span>.</li><li>NO interrogarlo sobre el delito ni exigirle confesión del hecho.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Unidad Fiscal (investigación de mayores involucrados).</li><li>Asesoría Tutelar de turno <span class="law-cite">Art. 5 inc. n</span>.</li><li>DINAyF y Padres o tutores <span class="law-cite">Art. 5 inc. l</span>.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO solicitar encierro punitivo en institutos penitenciarios comunes.</li></ul></details>
             </div>
         </article>
 
         <!-- 02 -->
-        <article class="case-card" id="caso-2" data-cat="delito" data-keywords="comun leve hurto simple daño tentativa robo sin armas oportunidad mediacion 6 años">
+        <article class="case-card" id="caso-2" data-status="tranquilo" data-keywords="comun leve hurto simple daño tentativa robo sin armas oportunidad mediacion 6 años">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">02</span>
-                    <h2 class="card-title-text">Adolescente (14 a 17) en Delito Leve</h2>
-                </div>
-                <span class="card-tag tag-delito">Pena &le; 6 Años</span>
+                <div class="header-title-box"><span class="card-order">02</span><h2 class="card-title-text">Adolescente (14 a 17) en Delito Leve</h2></div>
+                <span class="card-status-badge badge-tranquilo">Sin Lesión / Calmo</span>
             </div>
             <div class="card-summary">Delitos con pena máxima hasta 6 años sin muerte ni violencia física/psíquica grave.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Notificar en lenguaje claro sus derechos y motivo de demora <span class="law-cite">Art. 5 inc. c</span>.</li>
-                        <li>Alojamiento en sector de guardia separado físicamente de mayores <span class="law-cite">Art. 5 inc. k</span>.</li>
-                        <li>Examen médico legal prioritario e informe al fiscal para salidas tempranas <span class="law-cite">Arts. 41 y 42</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO alojarlo en calabozos de encierro general.</li>
-                        <li>NO tomarle indagatoria o declaración sin defensor presente <span class="law-cite">Art. 47</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Fiscalía de Flagrancia / Penal Juvenil de turno.</li>
-                        <li>Defensoría Oficial Penal Juvenil y Asesoría Tutelar <span class="law-cite">Art. 5 inc. n</span>.</li>
-                        <li>Padres, advirtiendo su responsabilidad civil legal <span class="law-cite">Art. 7</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO convocar a prensa ni divulgar datos del menor <span class="law-cite">Art. 5 inc. i</span>.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Notificar en lenguaje claro sus derechos y motivo de demora <span class="law-cite">Art. 5 inc. c</span>.</li><li>Alojamiento en sector de guardia separado físicamente de mayores <span class="law-cite">Art. 5 inc. k</span>.</li><li>Examen médico legal prioritario e informe al fiscal para salidas tempranas <span class="law-cite">Arts. 41 y 42</span>.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO alojarlo en calabozos de encierro general.</li><li>NO tomarle indagatoria o declaración sin defensor presente <span class="law-cite">Art. 47</span>.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Fiscalía de Flagrancia / Penal Juvenil de turno.</li><li>Defensoría Oficial Penal Juvenil y Asesoría Tutelar <span class="law-cite">Art. 5 inc. n</span>.</li><li>Padres, advirtiendo su responsabilidad civil legal <span class="law-cite">Art. 7</span>.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO convocar a prensa ni divulgar datos del menor <span class="law-cite">Art. 5 inc. i</span>.</li></ul></details>
             </div>
         </article>
 
         <!-- 03 -->
-        <article class="case-card" id="caso-3" data-cat="delito" data-keywords="grave armas homicidio asalto robo agravado abuso sexual instituto especializado">
+        <article class="case-card" id="caso-3" data-status="armado" data-keywords="grave armas homicidio asalto robo agravado abuso sexual instituto especializado">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">03</span>
-                    <h2 class="card-title-text">Adolescente (14 a 17) en Delito Grave</h2>
-                </div>
-                <span class="card-tag tag-delito">Grave / Armas</span>
+                <div class="header-title-box"><span class="card-order">03</span><h2 class="card-title-text">Adolescente (14 a 17) en Delito Grave</h2></div>
+                <span class="card-status-badge badge-armado">Agresivo / Armas</span>
             </div>
             <div class="card-summary">Homicidios, robos agravados con armas, abuso sexual o violencia extrema.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Preservar escena, armas y vainas con Policía Científica.</li>
-                        <li>Auxilio médico a la víctima; impedir contacto con el demorado <span class="law-cite">Arts. 6 y 7</span>.</li>
-                        <li>Requisa protocolar y traslado individual hacia centro judicial/médico.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO alojarlo de forma prolongada en dependencias policiales no preparadas.</li>
-                        <li>NO permitir contacto con mayores aprehendidos <span class="law-cite">Arts. 5 inc. k y 30 inc. a</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Fiscal de Instrucción Penal Juvenil de turno.</li>
-                        <li>Defensor Penal Juvenil y Asesoría Tutelar de turno <span class="law-cite">Art. 5 inc. n</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO remitirlo a alcaldías penitenciarias de adultos <span class="law-cite">Art. 30 inc. a</span>.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Preservar escena, armas y vainas con Policía Científica.</li><li>Auxilio médico a la víctima; impedir contacto con el demorado <span class="law-cite">Arts. 6 y 7</span>.</li><li>Requisa protocolar y traslado individual hacia centro judicial/médico.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO alojarlo de forma prolongada en dependencias policiales no preparadas.</li><li>NO permitir contacto con mayores aprehendidos <span class="law-cite">Arts. 5 inc. k y 30 inc. a</span>.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Fiscal de Instrucción Penal Juvenil de turno.</li><li>Defensor Penal Juvenil y Asesoría Tutelar de turno <span class="law-cite">Art. 5 inc. n</span>.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO remitirlo a alcaldías penitenciarias de adultos <span class="law-cite">Art. 30 inc. a</span>.</li></ul></details>
             </div>
         </article>
 
         <!-- 04 -->
-        <article class="case-card" id="caso-4" data-cat="salud" data-keywords="drogas alcohol consumo problematico sobredosis abstinencia siprosa hospital caps adiccion">
+        <article class="case-card" id="caso-4" data-status="intoxicado" data-keywords="drogas alcohol consumo problematico sobredosis abstinencia siprosa hospital caps adiccion">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">04</span>
-                    <h2 class="card-title-text">Consumo Problemático o Abstinencia</h2>
-                </div>
-                <span class="card-tag tag-salud">Salud / Drogas</span>
+                <div class="header-title-box"><span class="card-order">04</span><h2 class="card-title-text">Consumo Problemático o Abstinencia</h2></div>
+                <span class="card-status-badge badge-intoxicado">Intoxicado / Adicción</span>
             </div>
             <div class="card-summary">Intoxicación severa por sustancias, sobredosis o abstinencia aguda en calle.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Prioridad médica: derivar de urgencia al hospital o CAPS más próximo <span class="law-cite">Arts. 8 y 35</span>.</li>
-                        <li>Custodia de seguridad sin obstaculizar la intervención médica.</li>
-                        <li>Requerir informe toxicológico oficial sobre aptitud psicofísica.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO llevarlo a la comisaría ni alojarlo en celdas intoxicado.</li>
-                        <li>NO esposarlo si interfiere con la respiración o el acto médico.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li><a href="tel:107" style="color:var(--call-do-color); font-weight:800; text-decoration:underline;">Llamar 107 Emergencias Médicas</a>.</li>
-                        <li>Unidad Fiscal Juvenil (bajo Art. 35) y Asesoría Tutelar.</li>
-                        <li>Juez Civil si se ordena internación involuntaria <span class="law-cite">Art. 36</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO gestionar encierro punitivo sin alta médica fundamentada.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Prioridad médica: derivar de urgencia al hospital o CAPS más próximo <span class="law-cite">Arts. 8 y 35</span>.</li><li>Custodia de seguridad sin obstaculizar la intervención médica.</li><li>Requerir informe toxicológico oficial sobre aptitud psicofísica.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO llevarlo a la comisaría ni alojarlo en celdas intoxicado.</li><li>NO esposarlo si interfiere con la respiración o el acto médico.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Emergencias Médicas 107 (SIPROSA).</li><li>Unidad Fiscal Juvenil (bajo Art. 35) y Asesoría Tutelar.</li><li>Juez Civil si se ordena internación involuntaria <span class="law-cite">Art. 36</span>.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO gestionar encierro punitivo sin alta médica fundamentada.</li></ul></details>
             </div>
         </article>
 
         <!-- 05 -->
-        <article class="case-card" id="caso-5" data-cat="salud" data-keywords="salud mental brote psicotico suicidio autolesion delirio obarrio carmen peritaje">
+        <article class="case-card" id="caso-5" data-status="intoxicado" data-keywords="salud mental brote psicotico suicidio autolesion delirio obarrio carmen peritaje">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">05</span>
-                    <h2 class="card-title-text">Crisis de Salud Mental o Riesgo Autolesivo</h2>
-                </div>
-                <span class="card-tag tag-salud">Salud Mental</span>
+                <div class="header-title-box"><span class="card-order">05</span><h2 class="card-title-text">Crisis de Salud Mental o Riesgo Autolesivo</h2></div>
+                <span class="card-status-badge badge-intoxicado">Intoxicado / Adicción</span>
             </div>
             <div class="card-summary">Brote psicótico, alienación o riesgo inminente de autolesión o lesión a terceros.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Desescalada verbal tranquila; evitar posturas de confrontación física.</li>
-                        <li>Traslado asistido con el 107 a hospital psiquiátrico (Obarrio/Carmen) <span class="law-cite">Art. 25</span>.</li>
-                        <li>Pedir peritaje psiquiátrico urgente conforme Ley 26.657 <span class="law-cite">Art. 22 inc. c</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO utilizar fuerza lesiva o armas como método de castigo.</li>
-                        <li>NO dejar al menor sin vigilancia visual continua a corta distancia.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li><a href="tel:107" style="color:var(--call-do-color); font-weight:800; text-decoration:underline;">Llamar 107 Emergencias Médicas</a>.</li>
-                        <li>Asesoría Tutelar de turno.</li>
-                        <li>Fiscal Penal Juvenil (pedir suspensión de plazos procesales) <span class="law-cite">Art. 22 inc. c</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO convocar personal policial común para reducciones violentas en salas de salud.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Desescalada verbal tranquila; evitar posturas de confrontación física.</li><li>Traslado asistido con el 107 a hospital psiquiátrico (Obarrio/Carmen) <span class="law-cite">Art. 25</span>.</li><li>Pedir peritaje psiquiátrico urgente conforme Ley 26.657 <span class="law-cite">Art. 22 inc. c</span>.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO utilizar fuerza lesiva o armas como método de castigo.</li><li>NO dejar al menor sin vigilancia visual continua a corta distancia.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Emergencias Médicas 107 (SIPROSA).</li><li>Asesoría Tutelar de turno.</li><li>Fiscal Penal Juvenil (pedir suspensión de plazos procesales) <span class="law-cite">Art. 22 inc. c</span>.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO convocar personal policial común para reducciones violentas en salas de salud.</li></ul></details>
             </div>
         </article>
 
         <!-- 06 -->
-        <article class="case-card" id="caso-6" data-cat="salud" data-keywords="sin contencion abandono padres ausentes hogar violento dinayf maltrato vulnerabilidad">
+        <article class="case-card" id="caso-6" data-status="vulnerable" data-keywords="sin contencion abandono padres ausentes hogar violento dinayf maltrato vulnerabilidad">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">06</span>
-                    <h2 class="card-title-text">Menor sin Contención Familiar u Hogar Hostil</h2>
-                </div>
-                <span class="card-tag tag-salud">Vulnerabilidad</span>
+                <div class="header-title-box"><span class="card-order">06</span><h2 class="card-title-text">Menor sin Contención Familiar u Hogar Hostil</h2></div>
+                <span class="card-status-badge badge-vulnerable">Víctima / Urgencia</span>
             </div>
             <div class="card-summary">Padres ausentes o domicilio con maltrato comprobado o riesgo para su interés superior.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Confeccionar informe socio-ambiental de urgencia <span class="law-cite">Art. 9</span>.</li>
-                        <li>Resguardo en oficina de guardia bajo custodia asistencial.</li>
-                        <li>Oír la opinión del menor respecto a su entorno y entrega <span class="law-cite">Art. 9</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO restituir al menor a un domicilio hostil o peligroso <span class="law-cite">Art. 9</span>.</li>
-                        <li>NO liberarlo desamparado a la vía pública.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Guardia central DINAyF (para dispositivo de acogimiento) <span class="law-cite">Art. 9</span>.</li>
-                        <li>Asesoría Tutelar de turno y Juez/Fiscal de turno.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO forzar comparecencia de padres denunciados por el menor.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Confeccionar informe socio-ambiental de urgencia <span class="law-cite">Art. 9</span>.</li><li>Resguardo en oficina de guardia bajo custodia asistencial.</li><li>Oír la opinión del menor respecto a su entorno y entrega <span class="law-cite">Art. 9</span>.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO restituir al menor a un domicilio hostil o peligroso <span class="law-cite">Art. 9</span>.</li><li>NO liberarlo desamparado a la vía pública.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Guardia central DINAyF (para dispositivo de acogimiento) <span class="law-cite">Art. 9</span>.</li><li>Asesoría Tutelar de turno y Juez/Fiscal de turno.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO forzar comparecencia de padres denunciados por el menor.</li></ul></details>
             </div>
         </article>
 
         <!-- 07 -->
-        <article class="case-card" id="caso-7" data-cat="garantia" data-keywords="mixta mayores menores adultos desdoblamiento coautoria 41 quater">
+        <article class="case-card" id="caso-7" data-status="tranquilo" data-keywords="mixta mayores menores adultos desdoblamiento coautoria 41 quater">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">07</span>
-                    <h2 class="card-title-text">Causa Mixta (Mayores y Menores)</h2>
-                </div>
-                <span class="card-tag tag-garantia">Causa Mixta</span>
+                <div class="header-title-box"><span class="card-order">07</span><h2 class="card-title-text">Causa Mixta (Mayores y Menores)</h2></div>
+                <span class="card-status-badge badge-tranquilo">Sin Lesión / Calmo</span>
             </div>
             <div class="card-summary">Delito flagrante cometido en coautoría por personas adultas y menores de edad.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Separación física absoluta e inmediata en calle, móviles y guardia.</li>
-                        <li>Desdoblar actuaciones: un sumario por el mayor (Art. 41 quater CP) y otro penal juvenil.</li>
-                        <li>Mayor a celda común; menor a oficina administrativa de guardia.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO labrar acta única de aprehensión mezclando imputados.</li>
-                        <li>NO permitir contacto visual ni verbal durante el trámite <span class="law-cite">Art. 5 inc. k</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Fiscalía de Instrucción Ordinaria (por el mayor).</li>
-                        <li>Fiscalía Penal Juvenil, Asesoría Tutelar y Defensa Pública (por el menor).</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO poner al menor a disposición del juzgado de instrucción de adultos <span class="law-cite">Art. 38</span>.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Separación física absoluta e inmediata en calle, móviles y guardia.</li><li>Desdoblar actuaciones: un sumario por el mayor (Art. 41 quater CP) y otro penal juvenil.</li><li>Mayor a celda común; menor a oficina administrativa de guardia.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO labrar acta única de aprehensión mezclando imputados.</li><li>NO permitir contacto visual ni verbal durante el trámite <span class="law-cite">Art. 5 inc. k</span>.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Fiscalía de Instrucción Ordinaria (por el mayor).</li><li>Fiscalía Penal Juvenil, Asesoría Tutelar y Defensa Pública (por el menor).</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO poner al menor a disposición del juzgado de instrucción de adultos <span class="law-cite">Art. 38</span>.</li></ul></details>
             </div>
         </article>
 
         <!-- 08 -->
-        <article class="case-card" id="caso-8" data-cat="etario" data-keywords="duda edad indocumentado sin dni in dubio pro minoris cotejo dactilar renaper">
+        <article class="case-card" id="caso-8" data-status="tranquilo" data-keywords="duda edad indocumentado sin dni in dubio pro minoris cotejo dactilar renaper">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">08</span>
-                    <h2 class="card-title-text">Duda Insuperable sobre la Edad</h2>
-                </div>
-                <span class="card-tag tag-etario">Duda Etaria</span>
+                <div class="header-title-box"><span class="card-order">08</span><h2 class="card-title-text">Duda Insuperable sobre la Edad</h2></div>
+                <span class="card-status-badge badge-tranquilo">Sin Lesión / Calmo</span>
             </div>
             <div class="card-summary">Indocumentado que aparenta ser mayor pero alega ser menor, o con discordancia etaria.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Principio <em>in dubio pro minoris</em>: presumir legalmente la minoría de edad <span class="law-cite">Art. 2</span>.</li>
-                        <li>Custodia aislada sin contacto con mayores aprehendidos <span class="law-cite">Art. 5 inc. k</span>.</li>
-                        <li>Fichas papiloscópicas urgentes para cotejo con Registro Civil y RENAPER.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO alojarlo en celdas de mayores por simple apreciación física <span class="law-cite">Arts. 5 y 30</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Gabinete Dactiloscópico / Registro Civil / RENAPER.</li>
-                        <li>Fiscal Penal Juvenil (pedir peritaje médico-forense de edad biológica) <span class="law-cite">Art. 2</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO remitir a dependencias de adultos hasta resolución judicial firme de mayoría.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Principio <em>in dubio pro minoris</em>: presumir legalmente la minoría de edad <span class="law-cite">Art. 2</span>.</li><li>Custodia aislada sin contacto con mayores aprehendidos <span class="law-cite">Art. 5 inc. k</span>.</li><li>Fichas papiloscópicas urgentes para cotejo con Registro Civil y RENAPER.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO alojarlo en celdas de mayores por simple apreciación física <span class="law-cite">Arts. 5 y 30</span>.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Gabinete Dactiloscópico / Registro Civil / RENAPER.</li><li>Fiscal Penal Juvenil (pedir peritaje médico-forense de edad biológica) <span class="law-cite">Art. 2</span>.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO remitir a dependencias de adultos hasta resolución judicial firme de mayoría.</li></ul></details>
             </div>
         </article>
 
         <!-- 09 -->
-        <article class="case-card" id="caso-9" data-cat="etario" data-keywords="cumple 18 dieciocho años mayoria transcurso tramite hecho cometido">
+        <article class="case-card" id="caso-9" data-status="tranquilo" data-keywords="cumple 18 dieciocho años mayoria transcurso tramite hecho cometido">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">09</span>
-                    <h2 class="card-title-text">Cumple 18 Años Durante el Trámite</h2>
-                </div>
-                <span class="card-tag tag-etario">Mayoría de Edad</span>
+                <div class="header-title-box"><span class="card-order">09</span><h2 class="card-title-text">Cumple 18 Años Durante el Trámite</h2></div>
+                <span class="card-status-badge badge-tranquilo">Sin Lesión / Calmo</span>
             </div>
             <div class="card-summary">Delito cometido con 17 años pero cumple la mayoría al momento del arresto o proceso.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Computar la edad al momento del hecho: rige Ley 27.801 <span class="law-cite">Art. 2</span>.</li>
-                        <li>Asentar fecha de nacimiento y fecha de comisión del ilícito.</li>
-                        <li>Custodia diferenciada hasta que el juez determine el destino de alojamiento <span class="law-cite">Art. 30 inc. a</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO caratular de oficio como imputado mayor de edad.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Fiscal Penal Juvenil y Juez de Garantías Juvenil.</li>
-                        <li>Defensoría Juvenil interviniente.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO trasladar al penal de adultos sin resolución expresa del juez <span class="law-cite">Art. 30 inc. a</span>.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Computar la edad al momento del hecho: rige Ley 27.801 <span class="law-cite">Art. 2</span>.</li><li>Asentar fecha de nacimiento y fecha de comisión del ilícito.</li><li>Custodia diferenciada hasta que el juez determine el destino de alojamiento <span class="law-cite">Art. 30 inc. a</span>.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO caratular de oficio como imputado mayor de edad.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Fiscal Penal Juvenil y Juez de Garantías Juvenil.</li><li>Defensoría Juvenil interviniente.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO trasladar al penal de adultos sin resolución expresa del juez <span class="law-cite">Art. 30 inc. a</span>.</li></ul></details>
             </div>
         </article>
 
         <!-- 10 -->
-        <article class="case-card" id="caso-10" data-cat="delito" data-keywords="quebrantamiento tobillera monitoreo perimetral acercamiento restriccion no contacto">
+        <article class="case-card" id="caso-10" data-status="armado" data-keywords="quebrantamiento tobillera monitoreo perimetral acercamiento restriccion no contacto">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">10</span>
-                    <h2 class="card-title-text">Quebrantamiento de Medidas Judiciales</h2>
-                </div>
-                <span class="card-tag tag-delito">Incumplimiento</span>
+                <div class="header-title-box"><span class="card-order">10</span><h2 class="card-title-text">Quebrantamiento de Medidas Judiciales</h2></div>
+                <span class="card-status-badge badge-armado">Agresivo / Armas</span>
             </div>
             <div class="card-summary">Violación de perimetral hacia la víctima, daño de tobillera o inhabilitación de manejo.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Demora preventiva y verificación en sistema del oficio judicial incumplido.</li>
-                        <li>Inspeccionar tobillera por roturas o manipulación <span class="law-cite">Art. 12 inc. g</span>.</li>
-                        <li>Labrar acta circunstanciada para posible revocación a encierro <span class="law-cite">Arts. 16 y 21</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO desestimar la infracción con meras advertencias verbales.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Juzgado Penal Juvenil emisor de la medida <span class="law-cite">Art. 16</span>.</li>
-                        <li>Fiscal Penal Juvenil y Supervisor Judicial Especializado <span class="law-cite">Arts. 16 y 23</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO alojar en centros cerrados sin orden escrita del juez <span class="law-cite">Arts. 16 y 21</span>.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Demora preventiva y verificación en sistema del oficio judicial incumplido.</li><li>Inspeccionar tobillera por roturas o manipulación <span class="law-cite">Art. 12 inc. g</span>.</li><li>Labrar acta circunstanciada para posible revocación a encierro <span class="law-cite">Arts. 16 y 21</span>.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO desestimar la infracción con meras advertencias verbales.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Juzgado Penal Juvenil emisor de la medida <span class="law-cite">Art. 16</span>.</li><li>Fiscal Penal Juvenil y Supervisor Judicial Especializado <span class="law-cite">Arts. 16 y 23</span>.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO alojar en centros cerrados sin orden escrita del juez <span class="law-cite">Arts. 16 y 21</span>.</li></ul></details>
             </div>
         </article>
 
         <!-- 11 -->
-        <article class="case-card" id="caso-11" data-cat="salud" data-keywords="victima menor abuso sexual maltrato trata explotacion integridad gesell">
+        <article class="case-card" id="caso-11" data-status="vulnerable" data-keywords="victima menor abuso sexual maltrato trata explotacion integridad gesell">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">11</span>
-                    <h2 class="card-title-text">Menor como Víctima Directa en Escena</h2>
-                </div>
-                <span class="card-tag tag-salud">Víctima Menor</span>
+                <div class="header-title-box"><span class="card-order">11</span><h2 class="card-title-text">Menor como Víctima Directa en Escena</h2></div>
+                <span class="card-status-badge badge-vulnerable">Víctima / Urgencia</span>
             </div>
             <div class="card-summary">Menor que sufre abusos sexuales, maltrato severo, trata o explotación.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Resguardo prioritario, contención y traslado médico asistencial urgente <span class="law-cite">Arts. 6 y 7</span>.</li>
-                        <li>Personal del mismo género si se investigan delitos sexuales.</li>
-                        <li>No interrogar sobre detalles íntimos (la declaración es por Cámara Gesell).</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO interrogarlo revictimizantemente en la guardia.</li>
-                        <li>NO colocar a la víctima frente al sospechoso.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Asesoría Tutelar de turno (obligatoria bajo pena de nulidad) <span class="law-cite">Art. 5 inc. n</span>.</li>
-                        <li>Fiscalía de Delitos Contra la Integridad Sexual y DINAyF.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO convocar personas ajenas al auxilio médico y psicológico habilitado.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Resguardo prioritario, contención y traslado médico asistencial urgente <span class="law-cite">Arts. 6 y 7</span>.</li><li>Personal del mismo género si se investigan delitos sexuales.</li><li>No interrogar sobre detalles íntimos (la declaración es por Cámara Gesell).</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO interrogarlo revictimizantemente en la guardia.</li><li>NO colocar a la víctima frente al sospechoso.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Asesoría Tutelar de turno (obligatoria bajo pena de nulidad) <span class="law-cite">Art. 5 inc. n</span>.</li><li>Fiscalía de Delitos Contra la Integridad Sexual y DINAyF.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO convocar personas ajenas al auxilio médico y psicológico habilitado.</li></ul></details>
             </div>
         </article>
 
         <!-- 12 -->
-        <article class="case-card" id="caso-12" data-cat="delito" data-keywords="transito choque vial moto vehiculo muerte lesiones gravismas alcoholemia culposo">
+        <article class="case-card" id="caso-12" data-status="armado" data-keywords="transito choque vial moto vehiculo muerte lesiones gravismas alcoholemia culposo">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">12</span>
-                    <h2 class="card-title-text">Delitos Viales con Lesiones Graves o Muerte</h2>
-                </div>
-                <span class="card-tag tag-delito">Siniestro Vial</span>
+                <div class="header-title-box"><span class="card-order">12</span><h2 class="card-title-text">Delitos Viales con Lesiones Graves o Muerte</h2></div>
+                <span class="card-status-badge badge-armado">Agresivo / Armas</span>
             </div>
             <div class="card-summary">Siniestro vial ocasionado por menor con personas fallecidas o con lesiones gravísimas.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Preservar escena e incautar rodado con Policía Científica.</li>
-                        <li>Aprehensión preventiva y dosaje toxicológico/alcoholemia obligatoria.</li>
-                        <li>Informar al fiscal: la ley prohíbe Criterios de Oportunidad <span class="law-cite">Art. 41</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO conceder la entrega anticipada en comisaría <span class="law-cite">Art. 41</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Unidad Fiscal de Flagrancia / Penal Juvenil.</li>
-                        <li>Asesoría Tutelar de turno y progenitores <span class="law-cite">Art. 5 inc. l</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO entregar el vehículo secuestrado sin orden judicial previa.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Preservar escena e incautar rodado con Policía Científica.</li><li>Aprehensión preventiva y dosaje toxicológico/alcoholemia obligatoria.</li><li>Informar al fiscal: la ley prohíbe Criterios de Oportunidad <span class="law-cite">Art. 41</span>.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO conceder la entrega anticipada en comisaría <span class="law-cite">Art. 41</span>.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Unidad Fiscal de Flagrancia / Penal Juvenil.</li><li>Asesoría Tutelar de turno y progenitores <span class="law-cite">Art. 5 inc. l</span>.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO entregar el vehículo secuestrado sin orden judicial previa.</li></ul></details>
             </div>
         </article>
 
         <!-- 13 -->
-        <article class="case-card" id="caso-13" data-cat="salud" data-keywords="embarazo gestante bebe lactante maternidad arresto domiciliario hijos">
+        <article class="case-card" id="caso-13" data-status="vulnerable" data-keywords="embarazo gestante bebe lactante maternidad arresto domiciliario hijos">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">13</span>
-                    <h2 class="card-title-text">Adolescentes Gestantes o con Hijos a Cargo</h2>
-                </div>
-                <span class="card-tag tag-salud">Maternidad</span>
+                <div class="header-title-box"><span class="card-order">13</span><h2 class="card-title-text">Adolescentes Gestantes o con Hijos a Cargo</h2></div>
+                <span class="card-status-badge badge-vulnerable">Víctima / Urgencia</span>
             </div>
             <div class="card-summary">Adolescente imputada embarazada o aprehendida con su hijo lactante en brazos.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Preservar la unión madre-hijo sin separaciones forzadas.</li>
-                        <li>En embarazo, traslado urgente a maternidad para constatar salud fetal.</li>
-                        <li>Informar al fiscal para evaluar arresto domiciliario prioritario <span class="law-cite">Arts. 17 y 30</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO separar violentamente al bebé de los brazos de su madre.</li>
-                        <li>NO aplicar esposas o presiones sobre el vientre materno.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Fiscal Penal Juvenil, Asesoría Tutelar y DINAyF.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO trasladar a centros cerrados sin autorización médica de viabilidad gestacional.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Preservar la unión madre-hijo sin separaciones forzadas.</li><li>En embarazo, traslado urgente a maternidad para constatar salud fetal.</li><li>Informar al fiscal para evaluar arresto domiciliario prioritario <span class="law-cite">Arts. 17 y 30</span>.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO separar violentamente al bebé de los brazos de su madre.</li><li>NO aplicar esposas o presiones sobre el vientre materno.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Fiscal Penal Juvenil, Asesoría Tutelar y DINAyF.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO trasladar a centros cerrados sin autorización médica de viabilidad gestacional.</li></ul></details>
             </div>
         </article>
 
         <!-- 14 -->
-        <article class="case-card" id="caso-14" data-cat="garantia" data-keywords="mudo sordo lengua señas interprete traductor idioma extranjero originario">
+        <article class="case-card" id="caso-14" data-status="tranquilo" data-keywords="mudo sordo lengua señas interprete traductor idioma extranjero originario">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">14</span>
-                    <h2 class="card-title-text">Discapacidad o Barrera Lingüística</h2>
-                </div>
-                <span class="card-tag tag-garantia">Accesibilidad</span>
+                <div class="header-title-box"><span class="card-order">14</span><h2 class="card-title-text">Discapacidad o Barrera Lingüística</h2></div>
+                <span class="card-status-badge badge-tranquilo">Sin Lesión / Calmo</span>
             </div>
             <div class="card-summary">Menor con mudez, hipoacusia, no hispanohablante o dificultad severa de comunicación.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Suspender toda labranza indagatoria o lectura ficta de derechos <span class="law-cite">Art. 5 inc. c y g</span>.</li>
-                        <li>Custodia tranquila comunicándose por señas universales de calma.</li>
-                        <li>Pedir designación de intérprete oficial de lengua de señas o traductor matriculado.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO hacerle firmar actas que no comprenda fehacientemente.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Unidad Fiscal y Defensoría Oficial (designación de perito intérprete).</li>
-                        <li>Asesoría Tutelar <span class="law-cite">Art. 5 inc. n</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO utilizar como intérpretes a transeúntes no matriculados.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Suspender toda labranza indagatoria o lectura ficta de derechos <span class="law-cite">Art. 5 inc. c y g</span>.</li><li>Custodia tranquila comunicándose por señas universales de calma.</li><li>Pedir designación de intérprete oficial de lengua de señas o traductor matriculado.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO hacerle firmar actas que no comprenda fehacientemente.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Unidad Fiscal y Defensoría Oficial (designación de perito intérprete).</li><li>Asesoría Tutelar <span class="law-cite">Art. 5 inc. n</span>.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO utilizar como intérpretes a transeúntes no matriculados.</li></ul></details>
             </div>
         </article>
 
         <!-- 15 -->
-        <article class="case-card" id="caso-15" data-cat="garantia" data-keywords="abogado particular padres conflicto rechazo letrado privado defensor oficial">
+        <article class="case-card" id="caso-15" data-status="tranquilo" data-keywords="abogado particular padres conflicto rechazo letrado privado defensor oficial">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">15</span>
-                    <h2 class="card-title-text">Conflicto con Letrado Particular de Padres</h2>
-                </div>
-                <span class="card-tag tag-garantia">Defensa</span>
+                <div class="header-title-box"><span class="card-order">15</span><h2 class="card-title-text">Conflicto con Letrado Particular de Padres</h2></div>
+                <span class="card-status-badge badge-tranquilo">Sin Lesión / Calmo</span>
             </div>
             <div class="card-summary">Padres traen abogado particular al que el menor rechaza expresamente por desconfianza.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Respetar la voluntad del menor sobre su representación <span class="law-cite">Arts. 5 inc. c y 9</span>.</li>
-                        <li>Asentar en acta la negativa expresa del joven al letrado particular.</li>
-                        <li>Dar intervención inmediata a la Defensoría Pública de Menores.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO forzar entrevistas a solas con el abogado rechazado.</li>
-                        <li>NO imponer la voluntad de los padres por sobre la del joven imputado.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Defensor Oficial Penal Juvenil de turno <span class="law-cite">Art. 5 inc. c</span>.</li>
-                        <li>Asesoría Tutelar de turno.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO admitir escritos del particular si el menor solicita expresamente defensor oficial.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Respetar la voluntad del menor sobre su representación <span class="law-cite">Arts. 5 inc. c y 9</span>.</li><li>Asentar en acta la negativa expresa del joven al letrado particular.</li><li>Dar intervención inmediata a la Defensoría Pública de Menores.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO forzar entrevistas a solas con el abogado rechazado.</li><li>NO imponer la voluntad de los padres por sobre la del joven imputado.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Defensor Oficial Penal Juvenil de turno <span class="law-cite">Art. 5 inc. c</span>.</li><li>Asesoría Tutelar de turno.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO admitir escritos del particular si el menor solicita expresamente defensor oficial.</li></ul></details>
             </div>
         </article>
 
         <!-- 16 -->
-        <article class="case-card" id="caso-16" data-cat="delito" data-keywords="secuestro cosas robadas bienes tumberas motos comiso reparacion integral">
+        <article class="case-card" id="caso-16" data-status="tranquilo" data-keywords="secuestro cosas robadas bienes tumberas motos comiso reparacion integral">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">16</span>
-                    <h2 class="card-title-text">Secuestro de Bienes para Decomiso o Devolución</h2>
-                </div>
-                <span class="card-tag tag-delito">Bienes</span>
+                <div class="header-title-box"><span class="card-order">16</span><h2 class="card-title-text">Secuestro de Bienes para Decomiso o Devolución</h2></div>
+                <span class="card-status-badge badge-tranquilo">Sin Lesión / Calmo</span>
             </div>
             <div class="card-summary">Incautación de cosas robadas o de elementos utilizados para consumar el ilícito.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Doble inventario discriminado con cadena de custodia formal:
-                            <br>• <em>Acta A:</em> bienes sustraídos para devolución fiscal a la víctima <span class="law-cite">Art. 12 inc. h</span>.
-                            <br>• <em>Acta B:</em> instrumentos del delito para comiso estatal <span class="law-cite">Art. 43</span>.
-                        </li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO entregar de hecho bienes en comisaría sin autorización fiscal expresa.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Fiscal Penal Juvenil / Flagrancia (directivas sobre depósitos o restitución).</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO remitir secuestros a predios privados sin regulación judicial.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Doble inventario discriminado con cadena de custodia formal: <br>• <em>Acta A:</em> bienes sustraídos para devolución fiscal a la víctima <span class="law-cite">Art. 12 inc. h</span>. <br>• <em>Acta B:</em> instrumentos del delito para comiso estatal <span class="law-cite">Art. 43</span>.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO entregar de hecho bienes en comisaría sin autorización fiscal expresa.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Fiscal Penal Juvenil / Flagrancia (directivas sobre depósitos o restitución).</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO remitir secuestros a predios privados sin regulación judicial.</li></ul></details>
             </div>
         </article>
 
         <!-- 17 -->
-        <article class="case-card" id="caso-17" data-cat="delito" data-keywords="reincidente antecedentes condena previa procesamiento firme exclusion beneficios">
+        <article class="case-card" id="caso-17" data-status="tranquilo" data-keywords="reincidente antecedentes condena previa procesamiento firme exclusion beneficios">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">17</span>
-                    <h2 class="card-title-text">Causas Previas o Procesamiento Firme</h2>
-                </div>
-                <span class="card-tag tag-delito">Antecedentes</span>
+                <div class="header-title-box"><span class="card-order">17</span><h2 class="card-title-text">Causas Previas o Procesamiento Firme</h2></div>
+                <span class="card-status-badge badge-tranquilo">Sin Lesión / Calmo</span>
             </div>
             <div class="card-summary">Delito leve pero cuyos antecedentes arrojan condenas o procesamientos firmes vigentes.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Solicitar informe urgente a Antecedentes Personales (primeros 30 min).</li>
-                        <li>Asentar en parte urgente el registro firme previo (veda salidas de oportunidad) <span class="law-cite">Arts. 10 y 41</span>.</li>
-                        <li>Custodia diferenciada a la espera de audiencia de flagrancia.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO otorgar entrega simple en comisaría creyendo que es excarcelable <span class="law-cite">Art. 41</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Fiscal Penal Juvenil (alertando exclusión de beneficios) y Defensoría Juvenil.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO dar datos de antecedentes a personas ajenas a la causa.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Solicitar informe urgente a Antecedentes Personales (primeros 30 min).</li><li>Asentar en parte urgente el registro firme previo (veda salidas de oportunidad) <span class="law-cite">Arts. 10 y 41</span>.</li><li>Custodia diferenciada a la espera de audiencia de flagrancia.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO otorgar entrega simple en comisaría creyendo que es excarcelable <span class="law-cite">Art. 41</span>.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Fiscal Penal Juvenil (alertando exclusión de beneficios) y Defensoría Juvenil.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO dar datos de antecedentes a personas ajenas a la causa.</li></ul></details>
             </div>
         </article>
 
         <!-- 18 -->
-        <article class="case-card" id="caso-18" data-cat="delito" data-keywords="fuga evadido roca instituto cerrado captura quebranto arresto domiciliario">
+        <article class="case-card" id="caso-18" data-status="armado" data-keywords="fuga evadido roca instituto cerrado captura quebranto arresto domiciliario">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">18</span>
-                    <h2 class="card-title-text">Fuga de Instituto o Arresto Domiciliario</h2>
-                </div>
-                <span class="card-tag tag-delito">Evasión</span>
+                <div class="header-title-box"><span class="card-order">18</span><h2 class="card-title-text">Fuga de Instituto o Arresto Domiciliario</h2></div>
+                <span class="card-status-badge badge-armado">Agresivo / Armas</span>
             </div>
             <div class="card-summary">Menor con pedido de captura por fuga de centro cerrado (Instituto Roca) o arresto domiciliario.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Demora de seguridad y verificación informática de la manda judicial.</li>
-                        <li>Custodia vigilada en oficina administrativa sin entrar a celdas comunes <span class="law-cite">Art. 5 inc. k</span>.</li>
-                        <li>Traslado directo e inmediato al Instituto Especializado ordenado <span class="law-cite">Art. 27</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO retener al menor pernoctando en comisarías comunes.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Juzgado Penal Juvenil requirente <span class="law-cite">Arts. 16 y 21</span>.</li>
-                        <li>Dirección del Instituto Especializado de origen.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO remitir a comisarías de mayores ni alcaidías penitenciarias de adultos <span class="law-cite">Art. 30 inc. a</span>.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Demora de seguridad y verificación informática de la manda judicial.</li><li>Custodia vigilada en oficina administrativa sin entrar a celdas comunes <span class="law-cite">Art. 5 inc. k</span>.</li><li>Traslado directo e inmediato al Instituto Especializado ordenado <span class="law-cite">Art. 27</span>.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO retener al menor pernoctando en comisarías comunes.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Juzgado Penal Juvenil requirente <span class="law-cite">Arts. 16 y 21</span>.</li><li>Dirección del Instituto Especializado de origen.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO remitir a comisarías de mayores ni alcaidías penitenciarias de adultos <span class="law-cite">Art. 30 inc. a</span>.</li></ul></details>
             </div>
         </article>
 
         <!-- 19 -->
-        <article class="case-card" id="caso-19" data-cat="etario" data-keywords="extranjero migrante indocumentado consulado radicacion no residente frontera">
+        <article class="case-card" id="caso-19" data-status="tranquilo" data-keywords="extranjero migrante indocumentado consulado radicacion no residente frontera">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">19</span>
-                    <h2 class="card-title-text">Menor Extranjero Indocumentado</h2>
-                </div>
-                <span class="card-tag tag-etario">Extranjero</span>
+                <div class="header-title-box"><span class="card-order">19</span><h2 class="card-title-text">Menor Extranjero Indocumentado</h2></div>
+                <span class="card-status-badge badge-tranquilo">Sin Lesión / Calmo</span>
             </div>
             <div class="card-summary">Menor extranjero sin DNI argentino, radicación formal o familia en la provincia.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Presunción de minoría y no discriminación <span class="law-cite">Arts. 2 y 5 inc. g</span>.</li>
-                        <li>Fichas dactilares para cotejo biométrico internacional.</li>
-                        <li>Verificar si cuenta con parientes o referentes en el país.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO tramitar expulsión sumaria sin control del juez penal juvenil.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Fiscal Penal Juvenil y Asesoría Tutelar.</li>
-                        <li>Dirección Nacional de Migraciones y Consulado del país de origen.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO convocar a control migratorio punitivo sin conocimiento tutelar previo <span class="law-cite">Art. 5 inc. n</span>.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Presunción de minoría y no discriminación <span class="law-cite">Arts. 2 y 5 inc. g</span>.</li><li>Fichas dactilares para cotejo biométrico internacional.</li><li>Verificar si cuenta con parientes o referentes en el país.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO tramitar expulsión sumaria sin control del juez penal juvenil.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Fiscal Penal Juvenil y Asesoría Tutelar.</li><li>Dirección Nacional de Migraciones y Consulado del país de origen.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO convocar a control migratorio punitivo sin conocimiento tutelar previo <span class="law-cite">Art. 5 inc. n</span>.</li></ul></details>
             </div>
         </article>
 
         <!-- 20 -->
-        <article class="case-card" id="caso-20" data-cat="garantia" data-keywords="confesion espontanea silencio no declarar autoincriminacion nulidad acta">
+        <article class="case-card" id="caso-20" data-status="tranquilo" data-keywords="confesion espontanea silencio no declarar autoincriminacion nulidad acta">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">20</span>
-                    <h2 class="card-title-text">Intento de Confesión ante la Policía</h2>
-                </div>
-                <span class="card-tag tag-garantia">Garantías</span>
+                <div class="header-title-box"><span class="card-order">20</span><h2 class="card-title-text">Intento de Confesión ante la Policía</h2></div>
+                <span class="card-status-badge badge-tranquilo">Sin Lesión / Calmo</span>
             </div>
             <div class="card-summary">El adolescente en móvil o guardia intenta autoincriminarse o narrar voluntariamente el hecho.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Interrumpir el relato de inmediato; recordar su derecho a guardar silencio <span class="law-cite">Art. 5 inc. c</span>.</li>
-                        <li>Explicar que solo puede declarar en sede judicial con defensor <span class="law-cite">Art. 47</span>.</li>
-                        <li>Asentar en acta solo que se le leyeron garantías y se abstuvo de declarar.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO redactar "manifestó espontáneamente ser autor" (invalida el proceso) <span class="law-cite">Art. 47</span>.</li>
-                        <li>NO interrogarlo sobre el hecho sin defensor letrado <span class="law-cite">Art. 5 inc. c</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Defensor Oficial Penal Juvenil de turno.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO convocar a sumariantes de brigadas de adultos para interrogarlo.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Interrumpir el relato de inmediato; recordar su derecho a guardar silencio <span class="law-cite">Art. 5 inc. c</span>.</li><li>Explicar que solo puede declarar en sede judicial con defensor <span class="law-cite">Art. 47</span>.</li><li>Asentar en acta solo que se le leyeron garantías y se abstuvo de declarar.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO redactar "manifestó espontáneamente ser autor" (invalida el proceso) <span class="law-cite">Art. 47</span>.</li><li>NO interrogarlo sobre el hecho sin defensor letrado <span class="law-cite">Art. 5 inc. c</span>.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Defensor Oficial Penal Juvenil de turno.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO convocar a sumariantes de brigadas de adultos para interrogarlo.</li></ul></details>
             </div>
         </article>
 
         <!-- 21 -->
-        <article class="case-card" id="caso-21" data-cat="garantia" data-keywords="genero trans requisa reservada dignidad no discriminacion autopercibido">
+        <article class="case-card" id="caso-21" data-status="tranquilo" data-keywords="genero trans requisa reservada dignidad no discriminacion autopercibido">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">21</span>
-                    <h2 class="card-title-text">Identidad de Género y Requisa Reservada</h2>
-                </div>
-                <span class="card-tag tag-garantia">Derechos</span>
+                <div class="header-title-box"><span class="card-order">21</span><h2 class="card-title-text">Identidad de Género y Requisa Reservada</h2></div>
+                <span class="card-status-badge badge-tranquilo">Sin Lesión / Calmo</span>
             </div>
             <div class="card-summary">Identidad de género autopercibida que difiere del registro formal de nacimiento.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Emplear en el trato verbal el nombre de pila autopercibido <span class="law-cite">Art. 5 inc. g</span>.</li>
-                        <li>Requisa efectuada por personal del mismo género autopercibido, en cuarto cerrado y sin desnudez forzada.</li>
-                        <li>Custodia en espacio seguro y protegido de hostigamientos.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO realizar requisas vejatorias o comentarios discriminatorios <span class="law-cite">Art. 5 inc. f y g</span>.</li>
-                        <li>NO alojarlo con hombres mayores o personas hostiles.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Asesoría Tutelar de turno y Fiscal Penal Juvenil (constancia de trato debido).</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO cursar partes policiales con términos denigratorios sobre su identidad.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Emplear en el trato verbal el nombre de pila autopercibido <span class="law-cite">Art. 5 inc. g</span>.</li><li>Requisa efectuada por personal del mismo género autopercibido, en cuarto cerrado y sin desnudez forzada.</li><li>Custodia en espacio seguro y protegido de hostigamientos.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO realizar requisas vejatorias o comentarios discriminatorios <span class="law-cite">Art. 5 inc. f y g</span>.</li><li>NO alojarlo con hombres mayores o personas hostiles.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Asesoría Tutelar de turno y Fiscal Penal Juvenil (constancia de trato debido).</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO cursar partes policiales con términos denigratorios sobre su identidad.</li></ul></details>
             </div>
         </article>
 
         <!-- 22 -->
-        <article class="case-card" id="caso-22" data-cat="delito" data-keywords="oposicion victima rechazo mediacion oportunidad encierro denuncia 41 42">
+        <article class="case-card" id="caso-22" data-status="tranquilo" data-keywords="oposicion victima rechazo mediacion oportunidad encierro denuncia 41 42">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">22</span>
-                    <h2 class="card-title-text">Oposición de la Víctima a Salidas Alternativas</h2>
-                </div>
-                <span class="card-tag tag-delito">Víctima</span>
+                <div class="header-title-box"><span class="card-order">22</span><h2 class="card-title-text">Oposición de la Víctima a Salidas Alternativas</h2></div>
+                <span class="card-status-badge badge-tranquilo">Sin Lesión / Calmo</span>
             </div>
             <div class="card-summary">Víctima exige encierro y se opone formalmente a entrega o mediación con el menor.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Recibir denuncia asentando textualmente su oposición formal a salidas anticipadas <span class="law-cite">Arts. 6, 41 y 42</span>.</li>
-                        <li>Notificar derechos conforme Ley de Víctimas 27.372 <span class="law-cite">Arts. 7 y 41</span>.</li>
-                        <li>Elevar oposición formal al fiscal para resolución jerárquica <span class="law-cite">Art. 41</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO inducir a la víctima a conciliar o firmar conformidades compulsivas <span class="law-cite">Art. 42</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Fiscal Penal Juvenil (remitiendo constancia de oposición de la víctima).</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO convocar a mediaciones policiales (es resorte judicial exclusivo) <span class="law-cite">Art. 42</span>.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Recibir denuncia asentando textualmente su oposición formal a salidas anticipadas <span class="law-cite">Arts. 6, 41 y 42</span>.</li><li>Notificar derechos conforme Ley de Víctimas 27.372 <span class="law-cite">Arts. 7 y 41</span>.</li><li>Elevar oposición formal al fiscal para resolución jerárquica <span class="law-cite">Art. 41</span>.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO inducir a la víctima a conciliar o firmar conformidades compulsivas <span class="law-cite">Art. 42</span>.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Fiscal Penal Juvenil (remitiendo constancia de oposición de la víctima).</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO convocar a mediaciones policiales (es resorte judicial exclusivo) <span class="law-cite">Art. 42</span>.</li></ul></details>
             </div>
         </article>
 
         <!-- 23 -->
-        <article class="case-card" id="caso-23" data-cat="garantia" data-keywords="supervisor especializado reglas conducta tareas comunitarias escuela trabajo">
+        <article class="case-card" id="caso-23" data-status="tranquilo" data-keywords="supervisor especializado reglas conducta tareas comunitarias escuela trabajo">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">23</span>
-                    <h2 class="card-title-text">Control y Supervisor Judicial</h2>
-                </div>
-                <span class="card-tag tag-garantia">Supervisor</span>
+                <div class="header-title-box"><span class="card-order">23</span><h2 class="card-title-text">Control y Supervisor Judicial</h2></div>
+                <span class="card-status-badge badge-tranquilo">Sin Lesión / Calmo</span>
             </div>
             <div class="card-summary">Menor en cumplimiento de tareas comunitarias o pautas de conducta escolar/laboral.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>No demorar si exhibe constancia de traslado a escuela, hospital o tareas comunitarias <span class="law-cite">Art. 14</span>.</li>
-                        <li>Informes de verificación de conducta estrictamente objetivos cuando sean requeridos <span class="law-cite">Art. 10</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO obstaculizar su asistencia a lugares formativos o de trabajo asignados <span class="law-cite">Art. 14</span>.</li>
-                        <li>NO verter opiniones morales en los informes oficiales.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Supervisor Judicial Especializado asignado <span class="law-cite">Arts. 16 y 23</span>.</li>
-                        <li>Juzgado Penal Juvenil de Ejecución.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO alertar a flagrancia si no hay delito nuevo en curso.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>No demorar si exhibe constancia de traslado a escuela, hospital o tareas comunitarias <span class="law-cite">Art. 14</span>.</li><li>Informes de verificación de conducta estrictamente objetivos cuando sean requeridos <span class="law-cite">Art. 10</span>.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO obstaculizar su asistencia a lugares formativos o de trabajo asignados <span class="law-cite">Art. 14</span>.</li><li>NO verter opiniones morales en los informes oficiales.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Supervisor Judicial Especializado asignado <span class="law-cite">Arts. 16 y 23</span>.</li><li>Juzgado Penal Juvenil de Ejecución.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO alertar a flagrancia si no hay delito nuevo en curso.</li></ul></details>
             </div>
         </article>
 
         <!-- 24 -->
-        <article class="case-card" id="caso-24" data-cat="delito" data-keywords="reclamo civil padres dinero pagar daños roturas comisaria guardia">
+        <article class="case-card" id="caso-24" data-status="tranquilo" data-keywords="reclamo civil padres dinero pagar daños roturas comisaria guardia">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">24</span>
-                    <h2 class="card-title-text">Reclamo Civil Espontáneo a Progenitores</h2>
-                </div>
-                <span class="card-tag tag-delito">Civil / Daños</span>
+                <div class="header-title-box"><span class="card-order">24</span><h2 class="card-title-text">Reclamo Civil Espontáneo a Progenitores</h2></div>
+                <span class="card-status-badge badge-tranquilo">Sin Lesión / Calmo</span>
             </div>
             <div class="card-summary">La víctima exige en comisaría que los padres le paguen en el acto los bienes rotos o robados.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Separar físicamente a las partes en la dependencia para resguardar la seguridad.</li>
-                        <li>Informar que la policía no cobra dineros; asentar daños para reclamo judicial <span class="law-cite">Arts. 7 y 26</span>.</li>
-                        <li>Notificar bajo acta a los padres su responsabilidad civil legal <span class="law-cite">Art. 7</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO oficiar de cobrador, tasador o mediador económico en comisaría.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Asesoría Tutelar y Unidad Fiscal Juvenil interviniente.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO convocar personal policial para presionar por pagos económicos en guardia.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Separar físicamente a las partes en la dependencia para resguardar la seguridad.</li><li>Informar que la policía no cobra dineros; asentar daños para reclamo judicial <span class="law-cite">Arts. 7 y 26</span>.</li><li>Notificar bajo acta a los padres su responsabilidad civil legal <span class="law-cite">Art. 7</span>.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO oficiar de cobrador, tasador o mediador económico en comisaría.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Asesoría Tutelar y Unidad Fiscal Juvenil interviniente.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO convocar personal policial para presionar por pagos económicos en guardia.</li></ul></details>
             </div>
         </article>
 
         <!-- 25 -->
-        <article class="case-card" id="caso-25" data-cat="salud" data-keywords="tea autismo sobrecarga sensorial discapacidad cud resistencia desorden">
+        <article class="case-card" id="caso-25" data-status="intoxicado" data-keywords="tea autismo sobrecarga sensorial discapacidad cud resistencia desorden">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">25</span>
-                    <h2 class="card-title-text">Discapacidad Sensorial / Crisis TEA</h2>
-                </div>
-                <span class="card-tag tag-salud">Salud / TEA</span>
+                <div class="header-title-box"><span class="card-order">25</span><h2 class="card-title-text">Discapacidad Sensorial / Crisis TEA</h2></div>
+                <span class="card-status-badge badge-intoxicado">Intoxicado / Adicción</span>
             </div>
             <div class="card-summary">Menor demorado por resistencia/desorden que padece TEA y entra en sobrecarga sensorial.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Apagar balizas y sirenas del móvil; suprimir ruidos y órdenes verbales imperativas.</li>
-                        <li>Retirar inmediatamente esposas u opresiones físicas.</li>
-                        <li>Permitir acompañamiento de familiar o cuidador que conozca técnicas de regulación.</li>
-                        <li>Requerir certificado CUD y peritaje psicológico urgente <span class="law-cite">Arts. 5 inc. g y 25 inc. a</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO aplicar técnicas de reducción física violenta ni gritos de mando.</li>
-                        <li>NO imputarle de oficio resistencia a la autoridad sin peritaje cognitivo previo <span class="law-cite">Art. 25 inc. a</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li><a href="tel:107" style="color:var(--call-do-color); font-weight:800; text-decoration:underline;">Llamar 107 Emergencias Médicas</a>.</li>
-                        <li>Asesoría Tutelar de turno y Fiscal Penal Juvenil (alertando patología de base).</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO convocar a cuerpos especiales antimotines o personal no capacitado.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Apagar balizas y sirenas del móvil; suprimir ruidos y órdenes verbales imperativas.</li><li>Retirar inmediatamente esposas u opresiones físicas.</li><li>Permitir acompañamiento de familiar o cuidador que conozca técnicas de regulación.</li><li>Requerir certificado CUD y peritaje psicológico urgente <span class="law-cite">Arts. 5 inc. g y 25 inc. a</span>.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO aplicar técnicas de reducción física violenta ni gritos de mando.</li><li>NO imputarle de oficio resistencia a la autoridad sin peritaje cognitivo previo <span class="law-cite">Art. 25 inc. a</span>.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Emergencias Médicas 107 (SIPROSA).</li><li>Asesoría Tutelar de turno y Fiscal Penal Juvenil (alertando patología de base).</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO convocar a cuerpos especiales antimotines o personal no capacitado.</li></ul></details>
             </div>
         </article>
 
         <!-- 26 -->
-        <article class="case-card" id="caso-26" data-cat="etario" data-keywords="otra provincia interprovincial terminal rutas puestos fronterizos limite santiago salta">
+        <article class="case-card" id="caso-26" data-status="tranquilo" data-keywords="otra provincia interprovincial terminal rutas puestos fronterizos limite santiago salta">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">26</span>
-                    <h2 class="card-title-text">Menores con Medidas de Otra Provincia</h2>
-                </div>
-                <span class="card-tag tag-etario">Interprovincial</span>
+                <div class="header-title-box"><span class="card-order">26</span><h2 class="card-title-text">Menores con Medidas de Otra Provincia</h2></div>
+                <span class="card-status-badge badge-tranquilo">Sin Lesión / Calmo</span>
             </div>
             <div class="card-summary">Menor en terminales o fronteras con restricción de salida o paradero de otra jurisdicción.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Constatar en sistema el oficio del juzgado requirente de origen <span class="law-cite">Arts. 12 inc. e y 49</span>.</li>
-                        <li>Resguardo en oficina de guardia sin ingreso a celdas comunes.</li>
-                        <li>Entrega al dispositivo de protección de niñez (DINAyF) para tránsito asistido.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO liberarlo sin confirmación ni trasladarlo sin comisión facultada.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Juzgado Penal Juvenil requirente de origen.</li>
-                        <li>Fiscal Penal Juvenil y Asesoría Tutelar de Tucumán y DINAyF.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO entregarlo a supuestos parientes sin acreditación documental fehaciente.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Constatar en sistema el oficio del juzgado requirente de origen <span class="law-cite">Arts. 12 inc. e y 49</span>.</li><li>Resguardo en oficina de guardia sin ingreso a celdas comunes.</li><li>Entrega al dispositivo de protección de niñez (DINAyF) para tránsito asistido.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO liberarlo sin confirmación ni trasladarlo sin comisión facultada.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Juzgado Penal Juvenil requirente de origen.</li><li>Fiscal Penal Juvenil y Asesoría Tutelar de Tucumán y DINAyF.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO entregarlo a supuestos parientes sin acreditación documental fehaciente.</li></ul></details>
             </div>
         </article>
 
         <!-- 27 -->
-        <article class="case-card" id="caso-27" data-cat="garantia" data-keywords="filmacion celular redes sociales fotos grabar prensa periodistas camaras">
+        <article class="case-card" id="caso-27" data-status="tranquilo" data-keywords="filmacion celular redes sociales fotos grabar prensa periodistas camaras">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">27</span>
-                    <h2 class="card-title-text">Grabación o Exposición en Redes Sociales</h2>
-                </div>
-                <span class="card-tag tag-garantia">Privacidad</span>
+                <div class="header-title-box"><span class="card-order">27</span><h2 class="card-title-text">Grabación o Exposición en Redes Sociales</h2></div>
+                <span class="card-status-badge badge-tranquilo">Sin Lesión / Calmo</span>
             </div>
             <div class="card-summary">Transeúntes filman al menor demorado en operativo para viralizar su imagen en redes o medios.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Bloquear visión o ingresar al menor al móvil para resguardar su rostro <span class="law-cite">Art. 5 inc. i</span>.</li>
-                        <li>Advertir a viva voz la prohibición legal de difundir nombres o fotos <span class="law-cite">Art. 5 inc. i</span>.</li>
-                        <li>Consignar datos de quienes grabaron para eventual sanción por desobediencia judicial.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO permitir a medios de prensa filmar o fotografiar al menor <span class="law-cite">Art. 5 inc. i</span>.</li>
-                        <li>NO dañar ni sustraer teléfonos particulares por mano propia.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Fiscal Penal Juvenil (pedir medidas judiciales de cese o baja de contenido digital).</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO emitir partes con datos filiatorios del adolescente a oficinas de prensa <span class="law-cite">Art. 5 inc. i</span>.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Bloquear visión o ingresar al menor al móvil para resguardar su rostro <span class="law-cite">Art. 5 inc. i</span>.</li><li>Advertir a viva voz la prohibición legal de difundir nombres o fotos <span class="law-cite">Art. 5 inc. i</span>.</li><li>Consignar datos de quienes grabaron para eventual sanción por desobediencia judicial.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO permitir a medios de prensa filmar o fotografiar al menor <span class="law-cite">Art. 5 inc. i</span>.</li><li>NO dañar ni sustraer teléfonos particulares por mano propia.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Fiscal Penal Juvenil (pedir medidas judiciales de cese o baja de contenido digital).</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO emitir partes con datos filiatorios del adolescente a oficinas de prensa <span class="law-cite">Art. 5 inc. i</span>.</li></ul></details>
             </div>
         </article>
 
         <!-- 28 -->
-        <article class="case-card" id="caso-28" data-cat="salud" data-keywords="autolesion huelga hambre ahorcarse golpes paredes comida ingesta guardia">
+        <article class="case-card" id="caso-28" data-status="intoxicado" data-keywords="autolesion huelga hambre ahorcarse golpes paredes comida ingesta guardia">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">28</span>
-                    <h2 class="card-title-text">Autolesión o Huelga de Ingesta en Guardia</h2>
-                </div>
-                <span class="card-tag tag-salud">Urgencia Vital</span>
+                <div class="header-title-box"><span class="card-order">28</span><h2 class="card-title-text">Autolesión o Huelga de Ingesta en Guardia</h2></div>
+                <span class="card-status-badge badge-intoxicado">Intoxicado / Adicción</span>
             </div>
             <div class="card-summary">El menor en espera se golpea, atenta contra su vida o se niega a ingerir alimentos o líquidos.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Retirar bajo acta cordones, cintos, camperas u objetos cortantes <span class="law-cite">Art. 5 inc. m</span>.</li>
-                        <li>Consigna policial física visual ininterrumpida a un metro de distancia.</li>
-                        <li>Convocar código rojo a ambulancia del 107 para estabilización clínica <span class="law-cite">Art. 31</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO dejar al menor solo en recintos cerrados o fuera de la vista directa.</li>
-                        <li>NO administrar medicamentos por cuenta del personal policial.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li><a href="tel:107" style="color:var(--call-do-color); font-weight:800; text-decoration:underline;">Llamar 107 Emergencias Médicas</a>.</li>
-                        <li>Asesoría Tutelar, Fiscal y Juez de Garantías (para internación asistida) <span class="law-cite">Art. 31</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO llamar a guardias penitenciarias comunes para reducción física forzada.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Retirar bajo acta cordones, cintos, camperas u objetos cortantes <span class="law-cite">Art. 5 inc. m</span>.</li><li>Consigna policial física visual ininterrumpida a un metro de distancia.</li><li>Convocar código rojo a ambulancia del 107 para estabilización clínica <span class="law-cite">Art. 31</span>.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO dejar al menor solo en recintos cerrados o fuera de la vista directa.</li><li>NO administrar medicamentos por cuenta del personal policial.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Emergencias Médicas 107 (SIPROSA).</li><li>Asesoría Tutelar, Fiscal y Juez de Garantías (para internación asistida) <span class="law-cite">Art. 31</span>.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO llamar a guardias penitenciarias comunes para reducción física forzada.</li></ul></details>
             </div>
         </article>
 
         <!-- 29 -->
-        <article class="case-card" id="caso-29" data-cat="salud" data-keywords="urgencia medica calle desmayo convulsion traslado salida asistida instituto">
+        <article class="case-card" id="caso-29" data-status="vulnerable" data-keywords="urgencia medica calle desmayo convulsion traslado salida asistida instituto">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">29</span>
-                    <h2 class="card-title-text">Emergencia Médica de Menor en Tránsito</h2>
-                </div>
-                <span class="card-tag tag-salud">Emergencia</span>
+                <div class="header-title-box"><span class="card-order">29</span><h2 class="card-title-text">Emergencia Médica de Menor en Tránsito</h2></div>
+                <span class="card-status-badge badge-vulnerable">Víctima / Urgencia</span>
             </div>
             <div class="card-summary">Menor en traslado procesal que sufre convulsión, desmayo o emergencia médica en calle.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Auxilio y traslado inmediato al hospital más cercano (SIPROSA) <span class="law-cite">Art. 31</span>.</li>
-                        <li>Mantener custodia de seguridad continua en el centro de salud.</li>
-                        <li>Informar al juez interviniente a posteriori, priorizando la vida y la salud <span class="law-cite">Art. 31</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO demorar la atención médica esperando orden judicial previa escrita <span class="law-cite">Art. 31</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Hospital de Urgencias (SIPROSA).</li>
-                        <li>Juzgado requirente del traslado e Instituto Especializado <span class="law-cite">Art. 31</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO trasladar en móviles comunes si se cuenta con ambulancia de soporte vital.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Auxilio y traslado inmediato al hospital más cercano (SIPROSA) <span class="law-cite">Art. 31</span>.</li><li>Mantener custodia de seguridad continua en el centro de salud.</li><li>Informar al juez interviniente a posteriori, priorizando la vida y la salud <span class="law-cite">Art. 31</span>.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO demorar la atención médica esperando orden judicial previa escrita <span class="law-cite">Art. 31</span>.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Hospital de Urgencias (SIPROSA).</li><li>Juzgado requirente del traslado e Instituto Especializado <span class="law-cite">Art. 31</span>.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO trasladar en móviles comunes si se cuenta con ambulancia de soporte vital.</li></ul></details>
             </div>
         </article>
 
         <!-- 30 -->
-        <article class="case-card" id="caso-30" data-cat="garantia" data-keywords="victima pobre sin recursos abogado gratis defensor de victimas querella gratuita">
+        <article class="case-card" id="caso-30" data-status="tranquilo" data-keywords="victima pobre sin recursos abogado gratis defensor de victimas querella gratuita">
             <div class="card-header-bar">
-                <div class="header-title-box">
-                    <span class="card-order">30</span>
-                    <h2 class="card-title-text">Víctima que Requiere Patrocinio Gratuito</h2>
-                </div>
-                <span class="card-tag tag-garantia">Patrocinio Gratuito</span>
+                <div class="header-title-box"><span class="card-order">30</span><h2 class="card-title-text">Víctima que Requiere Patrocinio Gratuito</h2></div>
+                <span class="card-status-badge badge-tranquilo">Sin Lesión / Calmo</span>
             </div>
             <div class="card-summary">Víctima que denuncia manifiesta carecer de dinero para pagar abogado o demandar a padres.</div>
             <div class="card-sections">
-                <div class="op-block do">
-                    <div class="op-header">Qué DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>Receptar denuncia informando que la ley le garantiza defensa gratuita <span class="law-cite">Art. 39 inc. b</span>.</li>
-                        <li>Asentar en acta el pedido de asistencia letrada pública por carencia económica.</li>
-                        <li>Entregar en mano los datos de contacto de la Defensoría Pública de Víctimas <span class="law-cite">Art. 39 inc. b</span>.</li>
-                    </ul>
-                </div>
-                <div class="op-block dont">
-                    <div class="op-header">Qué NO DEBE Hacer</div>
-                    <ul class="op-list">
-                        <li>NO rechazar la denuncia diciendo que "al ser menor no se puede hacer nada".</li>
-                        <li>NO recomendar abogados particulares en la guardia policial.</li>
-                    </ul>
-                </div>
-                <div class="op-block call-do">
-                    <div class="op-header">A Quién DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>Defensoría Pública de las Víctimas (MPD) <span class="law-cite">Art. 39 inc. b</span>.</li>
-                        <li>Fiscalía Penal Juvenil (informando vulnerabilidad de la damnificada).</li>
-                    </ul>
-                </div>
-                <div class="op-block call-dont">
-                    <div class="op-header">A Quién NO DEBE Llamar</div>
-                    <ul class="op-list">
-                        <li>NO derivar a intermediarios privados con fines lucrativos.</li>
-                    </ul>
-                </div>
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Receptar denuncia informando que la ley le garantiza defensa gratuita <span class="law-cite">Art. 39 inc. b</span>.</li><li>Asentar en acta el pedido de asistencia letrada pública por carencia económica.</li><li>Entregar en mano los datos de contacto de la Defensoría Pública de Víctimas <span class="law-cite">Art. 39 inc. b</span>.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO rechazar la denuncia diciendo que "al ser menor no se puede hacer nada".</li><li>NO recomendar abogados particulares en la guardia policial.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Defensoría Pública de las Víctimas (MPD) <span class="law-cite">Art. 39 inc. b</span>.</li><li>Fiscalía Penal Juvenil (informando vulnerabilidad de la damnificada).</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO derivar a intermediarios privados con fines lucrativos.</li></ul></details>
+            </div>
+        </article>
+
+        <!-- NUEVO: 31 -->
+        <article class="case-card" id="caso-31" data-status="armado" data-keywords="soldadito narcomenudeo drogas transa coaccion amenazas bandas 41 quater estupefacientes">
+            <div class="card-header-bar">
+                <div class="header-title-box"><span class="card-order">31</span><h2 class="card-title-text">Menor en Narcomenudeo Coaccionado ("Soldadito")</h2></div>
+                <span class="card-status-badge badge-armado">Agresivo / Armas</span>
+            </div>
+            <div class="card-summary">Adolescente con drogas fraccionadas que manifiesta coacción o amenazas de narcotraficantes del barrio.</div>
+            <div class="card-sections">
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Resguardar al joven bajo estricta reserva como presunta víctima de explotación de adultos <span class="law-cite">Art. 24</span>.</li><li>Asentar datos de los mayores para la causa conexa agravada (Art. 41 quater CP).</li><li>Dar intervención inmediata a DINAyF para alojamiento de protección en extraña zona.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO desestimar las amenazas de muerte o coacción que denuncie el menor.</li><li>NO reintegrarlo al mismo barrio donde operan las bandas narco.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Fiscalía de Narcomenudeo / Penal Juvenil de turno.</li><li>Asesoría Tutelar y Guardia Central de la DINAyF.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO divulgar datos del menor a brigadas de calle sin reserva legal.</li></ul></details>
+            </div>
+        </article>
+
+        <!-- NUEVO: 32 -->
+        <article class="case-card" id="caso-32" data-status="tranquilo" data-keywords="celular telefono dispositivo digital whatsapp fotos mensajes clave patron faraday telematicos">
+            <div class="card-header-bar">
+                <div class="header-title-box"><span class="card-order">32</span><h2 class="card-title-text">Secuestro de Celulares y Evidencia Digital</h2></div>
+                <span class="card-status-badge badge-tranquilo">Sin Lesión / Calmo</span>
+            </div>
+            <div class="card-summary">Incautación de teléfonos móviles inteligentes del menor o de sus acompañantes durante el hecho.</div>
+            <div class="card-sections">
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Secuestrar el teléfono bajo acta formal; colocar en modo avión o bolsa Faraday para evitar borrado remoto.</li><li>Preservar estricta cadena de custodia para peritaje forense judicial.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO forzar al menor a desbloquear el celular con huella o patrón (garantía contra autoincriminación) <span class="law-cite">Art. 5 inc. c</span>.</li><li>NO revisar galerías, chats ni llamadas sin orden judicial escrita.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Fiscal Penal Juvenil (solicitando peritaje telemático oficial).</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO permitir manipulación informática del celular en sede de guardia.</li></ul></details>
+            </div>
+        </article>
+
+        <!-- NUEVO: 33 -->
+        <article class="case-card" id="caso-33" data-status="vulnerable" data-keywords="manifestacion marcha protesta desorden tumulto gas pimienta balas goma infanteria desalojo">
+            <div class="card-header-bar">
+                <div class="header-title-box"><span class="card-order">33</span><h2 class="card-title-text">Menores en Manifestaciones y Desórdenes</h2></div>
+                <span class="card-status-badge badge-vulnerable">Víctima / Urgencia</span>
+            </div>
+            <div class="card-summary">Protestas sociales, desalojos o tumultos callejeros donde hay presencia de niños o adolescentes.</div>
+            <div class="card-sections">
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Priorizar diálogo y mediación; facilitar pasillos de evacuación segura para niños y mujeres <span class="law-cite">Art. 5 inc. b</span>.</li><li>Contención física no agresiva como último recurso en caso de peligro real.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO disparar postas de goma ni arrojar gas lacrimógeno directo a sectores con menores.</li><li>NO dispersar violentamente sin antes verificar vías de escape para los chicos.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Centro de Operaciones Policiales (COP) y Fiscal de turno para mediación.</li><li>Servicio 107 preventivo y DINAyF.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO ordenar cargas de choque sin ambulancias en el perímetro.</li></ul></details>
+            </div>
+        </article>
+
+        <!-- NUEVO: 34 -->
+        <article class="case-card" id="caso-34" data-status="armado" data-keywords="escuela colegio alumno docente arma blanca cuchillo pistola compañeros directores">
+            <div class="card-header-bar">
+                <div class="header-title-box"><span class="card-order">34</span><h2 class="card-title-text">Conflicto en Ámbito Escolar con Armas</h2></div>
+                <span class="card-status-badge badge-armado">Agresivo / Armas</span>
+            </div>
+            <div class="card-summary">Llamado urgente de directivos escolares por alumno armado o agresiones dentro del colegio.</div>
+            <div class="card-sections">
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>Ingresar con discreción (sin sirenas invasivas que generen pánico colectivo).</li><li>Proceder dentro de la dirección o gabinete pedagógico, nunca frente a todo el alumnado.</li><li>Secuestrar el arma bajo acta y resguardar a las víctimas de inmediato <span class="law-cite">Arts. 5 y 14</span>.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO esposar ni exhibir al alumno encañonado por los pasillos de la escuela.</li><li>NO desplazar de forma agresiva a las autoridades educativas presentes.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Fiscal Penal Juvenil y Asesoría Tutelar de turno.</li><li>Directivos del colegio y progenitores del alumno <span class="law-cite">Art. 5 inc. l</span>.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO convocar a medios periodísticos a la puerta del colegio.</li></ul></details>
+            </div>
+        </article>
+
+        <!-- NUEVO: 35 -->
+        <article class="case-card" id="caso-35" data-status="vulnerable" data-keywords="violencia institucional apremios golpes robo policia denuncia lesiones forense asuntos internos">
+            <div class="card-header-bar">
+                <div class="header-title-box"><span class="card-order">35</span><h2 class="card-title-text">Denuncia de Violencia Institucional / Apremios</h2></div>
+                <span class="card-status-badge badge-vulnerable">Víctima / Urgencia</span>
+            </div>
+            <div class="card-summary">El adolescente manifiesta en guardia haber sido golpeado, amenazado o despojado de bienes por los efectivos aprehensores.</div>
+            <div class="card-sections">
+                <details class="op-accordion do" open><summary>Qué DEBE Hacer</summary><ul class="op-list"><li>El oficial sumariante debe separar de inmediato al personal policial denunciado del menor.</li><li>Disponer examen médico legal urgente dejando constancia fotográfica y clínica de lesiones <span class="law-cite">Art. 5 inc. f</span>.</li><li>Asentar formalmente la denuncia penal del menor en acta separada.</li></ul></details>
+                <details class="op-accordion dont" open><summary>Qué NO DEBE Hacer</summary><ul class="op-list"><li>NO encubrir, alterar actas ni amedrentar al menor para que retire sus dichos.</li><li>NO permitir que el personal denunciado continúe custodiando al joven.</li></ul></details>
+                <details class="op-accordion call-do"><summary>A Quién DEBE Llamar</summary><ul class="op-list"><li>Fiscalía de Instrucción / Delitos Complejos e Institucionales.</li><li>Defensoría Oficial Penal Juvenil y Dirección de Asuntos Internos.</li></ul></details>
+                <details class="op-accordion call-dont"><summary>A Quién NO DEBE Llamar</summary><ul class="op-list"><li>NO consensuar relatos ficticios con el personal aprehensor.</li></ul></details>
             </div>
         </article>
 
     </main>
 
-    <!-- NAVEGADOR INFERIOR FIJO PARA DEDO PULGAR -->
+    <!-- NAVEGACIÓN INFERIOR MOBILE -->
     <nav class="bottom-bar">
-        <button class="bottom-btn active" id="btnHome">
-            <span class="btn-icon">⚡</span>
-            <span>Inicio</span>
-        </button>
-        <button class="bottom-btn" id="btnIndex">
-            <span class="btn-icon">📑</span>
-            <span>30 Casos</span>
-        </button>
-        <button class="bottom-btn" id="btnRules">
-            <span class="btn-icon">⛔</span>
-            <span>Reglas</span>
-        </button>
+        <button class="bottom-btn active" id="btnHome"><span class="btn-icon">⚡</span><span>Inicio</span></button>
+        <button class="bottom-btn" id="btnIndex"><span class="btn-icon">📑</span><span>35 Casos</span></button>
+        <button class="bottom-btn" id="btnCheck"><span class="btn-icon">📋</span><span>Checklist</span></button>
+        <button class="bottom-btn" id="btnRules"><span class="btn-icon">⛔</span><span>Reglas</span></button>
     </nav>
 
-    <!-- MODAL BOTTOM SHEET: ÍNDICE DE CASOS COMPLETO -->
+    <!-- MODAL BOTTOM SHEET: ÍNDICE DE 35 CASOS -->
     <div class="modal-overlay" id="modalOverlay"></div>
     <div class="bottom-sheet" id="bottomSheet">
         <div class="sheet-drag-handle"></div>
         <div class="sheet-header">
-            <h3>Índice Rápido de Casos</h3>
+            <h3>Índice Táctico (35 Supuestos)</h3>
             <button class="btn-close-sheet" id="btnCloseSheet">✕</button>
         </div>
-        <div class="sheet-list" id="sheetList">
-            <!-- Rellenado por JS -->
-        </div>
+        <div class="sheet-list" id="sheetList"></div>
     </div>
 
     <script>
@@ -1865,24 +1293,24 @@
             const cards = Array.from(document.querySelectorAll('.case-card'));
             const searchInput = document.getElementById('searchInput');
             const clearBtn = document.getElementById('clearBtn');
-            const chips = document.querySelectorAll('.cat-chip');
+            const statusChips = document.querySelectorAll('.status-chip');
             const emptyResults = document.getElementById('emptyResults');
-            
-            // Modal bottom sheet
+
             const bottomSheet = document.getElementById('bottomSheet');
             const modalOverlay = document.getElementById('modalOverlay');
             const btnIndex = document.getElementById('btnIndex');
             const btnCloseSheet = document.getElementById('btnCloseSheet');
             const sheetList = document.getElementById('sheetList');
-            
-            // Bottom bar buttons
+
             const btnHome = document.getElementById('btnHome');
             const btnRules = document.getElementById('btnRules');
+            const btnCheck = document.getElementById('btnCheck');
             const rulesCard = document.getElementById('rulesCard');
+            const checkCard = document.getElementById('checkCard');
 
-            let currentCategory = 'all';
+            let currentStatus = 'all';
 
-            // 1. Población del índice táctico móvil sin truncamiento
+            // 1. POBLAR ÍNDICE DE 35 CASOS
             cards.forEach(card => {
                 const order = card.querySelector('.card-order').innerText;
                 const title = card.querySelector('.card-title-text').innerText;
@@ -1892,7 +1320,7 @@
                 a.className = 'sheet-item';
                 a.href = `#${id}`;
                 a.innerHTML = `<span class="sheet-item-num">${order}</span> <span>${title}</span>`;
-                
+
                 a.addEventListener('click', (e) => {
                     e.preventDefault();
                     closeSheet();
@@ -1907,19 +1335,64 @@
                 sheetList.appendChild(a);
             });
 
-            // 2. Filtrado y Búsqueda Móvil Instantánea
-            function filterAll() {
-                const query = searchInput.value.toLowerCase().trim();
+            // 2. LEVENSHTEIN FUZZY MATCH
+            function levenshteinDistance(a, b) {
+                if (a.length === 0) return b.length;
+                if (b.length === 0) return a.length;
+                const matrix = [];
+                for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+                for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+
+                for (let i = 1; i <= b.length; i++) {
+                    for (let j = 1; j <= a.length; j++) {
+                        if (b.charAt(i - 1) === a.charAt(j - 1)) {
+                            matrix[i][j] = matrix[i - 1][j - 1];
+                        } else {
+                            matrix[i][j] = Math.min(
+                                matrix[i - 1][j - 1] + 1,
+                                matrix[i][j - 1] + 1,
+                                matrix[i - 1][j] + 1
+                            );
+                        }
+                    }
+                }
+                return matrix[b.length][a.length];
+            }
+
+            function isFuzzyMatch(query, targetText) {
+                if (!query) return true;
+                const cleanQuery = query.toLowerCase().trim();
+                const cleanTarget = targetText.toLowerCase();
+
+                if (cleanTarget.includes(cleanQuery)) return true;
+
+                const queryWords = cleanQuery.split(/\s+/);
+                const targetWords = cleanTarget.split(/[\s,./()\-]+/);
+
+                return queryWords.every(qWord => {
+                    if (qWord.length < 3) return cleanTarget.includes(qWord);
+                    return targetWords.some(tWord => {
+                        if (tWord.includes(qWord) || qWord.includes(tWord)) return true;
+                        const dist = levenshteinDistance(qWord, tWord);
+                        const maxAllowed = qWord.length > 5 ? 2 : 1;
+                        return dist <= maxAllowed;
+                    });
+                });
+            }
+
+            // 3. FILTRADO COMBINADO
+            function applyFilter() {
+                const query = searchInput.value.trim();
                 let visible = 0;
 
                 cards.forEach(card => {
-                    const text = (card.innerText + " " + (card.dataset.keywords || '')).toLowerCase();
-                    const cat = card.dataset.cat;
+                    const cardStatus = card.dataset.status;
+                    const cardFullText = card.innerText + " " + (card.dataset.keywords || '');
 
-                    const matchQuery = query === '' || text.includes(query);
-                    const matchCat = currentCategory === 'all' || cat === currentCategory;
+                    const matchFuzzy = isFuzzyMatch(query, cardFullText);
+                    const matchStatus = (currentStatus === 'all' || cardStatus === currentStatus);
 
-                    if (matchQuery && matchCat) {
+                    if (matchFuzzy && matchStatus) {
                         card.style.display = 'block';
                         visible++;
                     } else {
@@ -1931,24 +1404,35 @@
                 clearBtn.classList.toggle('active', query.length > 0);
             }
 
-            searchInput.addEventListener('input', filterAll);
+            searchInput.addEventListener('input', applyFilter);
 
             clearBtn.addEventListener('click', () => {
                 searchInput.value = '';
-                filterAll();
+                applyFilter();
                 searchInput.focus();
             });
 
-            chips.forEach(chip => {
+            statusChips.forEach(chip => {
                 chip.addEventListener('click', () => {
-                    chips.forEach(c => c.classList.remove('active'));
+                    statusChips.forEach(c => c.classList.remove('active'));
                     chip.classList.add('active');
-                    currentCategory = chip.dataset.filter;
-                    filterAll();
+                    currentStatus = chip.dataset.status;
+                    applyFilter();
                 });
             });
 
-            // 3. Control del Modal Deslizable (Bottom Sheet)
+            // 4. MEMORIA CHECKLIST (LOCALSTORAGE)
+            const chkTasks = document.querySelectorAll('.chk-task');
+            chkTasks.forEach(chk => {
+                const saved = localStorage.getItem('tucuman_chk_' + chk.id);
+                if (saved === 'true') chk.checked = true;
+
+                chk.addEventListener('change', () => {
+                    localStorage.setItem('tucuman_chk_' + chk.id, chk.checked);
+                });
+            });
+
+            // 5. CONTROL DEL MODAL BOTTOM SHEET
             function openSheet() {
                 modalOverlay.classList.add('open');
                 bottomSheet.classList.add('open');
@@ -1963,16 +1447,23 @@
             btnCloseSheet.addEventListener('click', closeSheet);
             modalOverlay.addEventListener('click', closeSheet);
 
-            // 4. Botones de Navegación Rápida
+            // 6. BOTONES NAVEGACIÓN BOTTOM BAR
             btnHome.addEventListener('click', () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 searchInput.value = '';
-                filterAll();
+                currentStatus = 'all';
+                statusChips.forEach(c => c.classList.toggle('active', c.dataset.status === 'all'));
+                applyFilter();
             });
 
             btnRules.addEventListener('click', () => {
                 rulesCard.open = true;
                 rulesCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+
+            btnCheck.addEventListener('click', () => {
+                checkCard.open = true;
+                checkCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
             });
         });
     </script>
